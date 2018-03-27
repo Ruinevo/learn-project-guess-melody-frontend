@@ -1,7 +1,7 @@
 # Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
 
 * Студент: [Rinat Sadykov](https://up.htmlacademy.ru/ecmascript/4/user/98853).
-* Наставник: `Александр Бренчев`.
+* Наставник: [Александр Бренчев](https://htmlacademy.ru/profile/id59895).
 
 ---
 
