@@ -97,9 +97,7 @@ genreSendBtn.setAttribute(`disabled`, `disabled`);
 
 genreAnswerVersions.forEach(function (elem) {
   elem.onclick = () => {
-    let checked = Array.prototype.some.call(genreAnswerVersions, function (e) {
-      return e.checked;
-    });
+    let checked = Array.from(genreAnswerVersions).some((e) => e.checked);
     if (checked) {
       genreSendBtn.removeAttribute(`disabled`, `disabled`);
     } else {
