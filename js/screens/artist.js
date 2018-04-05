@@ -67,7 +67,7 @@ const guessArtistScreen = getElementFromTemplate(template);
 
 const artistOptions = guessArtistScreen.querySelectorAll(`.main-answer`);
 
-artistOptions.forEach(function (elem) {
+artistOptions.forEach((elem) => {
   elem.addEventListener(`click`, () => {
     renderScreen(guessGenreScreen);
   });

@@ -2,8 +2,8 @@ import {getElementFromTemplate} from './../util';
 import {getRandomFromArray} from './../util';
 import {renderScreen} from './../render';
 import resultsScreen from './result';
-import TimeOverScreen from './timeover-result';
-import LivesOverScreen from './livesover-result';
+import timeOverScreen from './timeover-result';
+import livesOverScreen from './livesover-result';
 
 const template = `  
 <section class="main main--level main--level-genre">
@@ -91,19 +91,19 @@ const template = `
 
 
 const guessGenreScreen = getElementFromTemplate(template);
-const genreAnswerVersions = guessGenreScreen.querySelectorAll(`input[type=checkbox]`);
+const genreOptions = guessGenreScreen.querySelectorAll(`input[type=checkbox]`);
 const answerSubmitBtn = guessGenreScreen.querySelector(`.genre-answer-send`);
 const genreForm = guessGenreScreen.querySelector(`.genre`);
 answerSubmitBtn.disabled = true;
 
-genreAnswerVersions.forEach(function (elem) {
+genreOptions.forEach((elem) => {
   elem.addEventListener(`click`, () => {
-    let checked = Array.from(genreAnswerVersions).some((e) => e.checked);
-    answerSubmitBtn.disabled = !checked;
+    let isSubmitEnabled = Array.from(genreOptions).some((e) => e.checked);
+    answerSubmitBtn.disabled = !isSubmitEnabled;
   });
 });
 
-const resultsScreensArray = [resultsScreen, TimeOverScreen, LivesOverScreen];
+const resultsScreensArray = [resultsScreen, timeOverScreen, livesOverScreen];
 
 answerSubmitBtn.addEventListener(`click`, (evt) => { // переключаемся на случайный экран результатов
   evt.preventDefault();

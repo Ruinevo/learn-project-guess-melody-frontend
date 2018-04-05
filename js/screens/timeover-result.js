@@ -11,13 +11,13 @@ const template = `
   <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>
 </section>`;
 
-const TimeOverScreen = getElementFromTemplate(template);
+const timeOverScreen = getElementFromTemplate(template);
 
-const replayBtn = TimeOverScreen.querySelector(`.main-replay`);
+const replayBtn = timeOverScreen.querySelector(`.main-replay`);
 
 replayBtn.addEventListener(`click`, (evt) => {
   evt.preventDefault();
   renderScreen(welcomeScreen);
 });
 
-export default TimeOverScreen;
+export default timeOverScreen;
