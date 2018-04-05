@@ -6,6 +6,6 @@ export const getElementFromTemplate = (template) => {
 };
 // функция возвращает случайный элемент из массива
 export const getRandomFromArray = (possibleValues) => {
-  let randomIndex = Math.floor(Math.random() * possibleValues.length);
+  const randomIndex = Math.floor(Math.random() * possibleValues.length);
   return possibleValues[randomIndex];
 };
