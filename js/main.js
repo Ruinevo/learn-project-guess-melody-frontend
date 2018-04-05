@@ -1,4 +1,4 @@
-import welcomeTemplate from './screens/welcome';
+import welcomeScreen from './screens/welcome';
 import {renderScreen} from './render';
 
-renderScreen(welcomeTemplate); // отрисовываем экран приветствия (по ТЗ)
+renderScreen(welcomeScreen); // отрисовываем экран приветствия (по ТЗ)

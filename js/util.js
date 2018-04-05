@@ -4,3 +4,8 @@ export const getElementFromTemplate = (template) => {
   outer.innerHTML = template;
   return outer.querySelector(`section.main`);
 };
+// функция возвращает случайный элемент из массива
+export const getRandomFromArray = (possibleValues) => {
+  let randomIndex = Math.floor(Math.random() * possibleValues.length);
+  return possibleValues[randomIndex];
+};

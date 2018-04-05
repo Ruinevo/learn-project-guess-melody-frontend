@@ -1,6 +1,6 @@
 import {getElementFromTemplate} from './../util';
 import {renderScreen} from './../render';
-import welcomeTemplate from './welcome';
+import welcomeScreen from './welcome';
 
 const template = `
 <section class="main main--result">
@@ -11,13 +11,13 @@ const template = `
   <span role="button" tabindex="0" class="main-replay">Попробовать ещё раз</span>
 </section>`;
 
-const moduleLivesOverResult = getElementFromTemplate(template);
+const LivesOverScreen = getElementFromTemplate(template);
 
-const replayBtn = moduleLivesOverResult.querySelector(`.main-replay`);
+const replayBtn = LivesOverScreen.querySelector(`.main-replay`);
 
-replayBtn.onclick = (evt) => {
+replayBtn.addEventListener(`click`, (evt) => {
   evt.preventDefault();
-  renderScreen(welcomeTemplate);
-};
+  renderScreen(welcomeScreen);
+});
 
-export default moduleLivesOverResult;
+export default LivesOverScreen;

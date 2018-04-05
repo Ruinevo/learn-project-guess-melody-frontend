@@ -1,8 +1,9 @@
 import {getElementFromTemplate} from './../util';
+import {getRandomFromArray} from './../util';
 import {renderScreen} from './../render';
-import moduleResult from './result';
-import timeoverResultTemplate from './timeover-result';
-import livesOverResultTemplate from './livesover-result';
+import resultsScreen from './result';
+import TimeOverScreen from './timeover-result';
+import LivesOverScreen from './livesover-result';
 
 const template = `  
 <section class="main main--level main--level-genre">
@@ -89,31 +90,26 @@ const template = `
 </section>`;
 
 
-const moduleGameOfChoiseGenre = getElementFromTemplate(template);
-const genreAnswerVersions = moduleGameOfChoiseGenre.querySelectorAll(`input[type=checkbox]`);
-
-const genreSendBtn = moduleGameOfChoiseGenre.querySelector(`.genre-answer-send`);
-genreSendBtn.setAttribute(`disabled`, `disabled`);
+const guessGenreScreen = getElementFromTemplate(template);
+const genreAnswerVersions = guessGenreScreen.querySelectorAll(`input[type=checkbox]`);
+const answerSubmitBtn = guessGenreScreen.querySelector(`.genre-answer-send`);
+const genreForm = guessGenreScreen.querySelector(`.genre`);
+answerSubmitBtn.disabled = true;
 
 genreAnswerVersions.forEach(function (elem) {
-  elem.onclick = () => {
+  elem.addEventListener(`click`, () => {
     let checked = Array.from(genreAnswerVersions).some((e) => e.checked);
-    if (checked) {
-      genreSendBtn.removeAttribute(`disabled`, `disabled`);
-    } else {
-      genreSendBtn.setAttribute(`disabled`, `disabled`);
-    }
-  };
+    answerSubmitBtn.disabled = !checked;
+  });
 });
 
-const resultTemplates = [moduleResult, timeoverResultTemplate, livesOverResultTemplate];
+const resultsScreensArray = [resultsScreen, TimeOverScreen, LivesOverScreen];
 
-genreSendBtn.onclick = (evt) => { // переключаемся на случайный экран результатов
+answerSubmitBtn.addEventListener(`click`, (evt) => { // переключаемся на случайный экран результатов
   evt.preventDefault();
-  document.querySelector(`.genre`).reset(); // сбрасываем форму
-  genreSendBtn.setAttribute(`disabled`, `disabled`);
-  let randomIdx = Math.floor(Math.random() * resultTemplates.length);
-  renderScreen(resultTemplates[randomIdx]);
-};
+  genreForm.reset(); // сбрасываем форму
+  answerSubmitBtn.disabled = true;
+  renderScreen(getRandomFromArray(resultsScreensArray)); // отрисовываем случайный экран результатов
+});
 
-export default moduleGameOfChoiseGenre;
+export default guessGenreScreen;

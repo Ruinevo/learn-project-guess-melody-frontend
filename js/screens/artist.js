@@ -1,6 +1,6 @@
 import {getElementFromTemplate} from './../util';
 import {renderScreen} from './../render';
-import gameGenreTemplate from './genre';
+import guessGenreScreen from './genre';
 
 const template = `
 <section class="main main--level main--level-artist">
@@ -63,14 +63,14 @@ const template = `
   </div>
 </section>`;
 
-const moduleGameOfChoiseArtist = getElementFromTemplate(template);
+const guessArtistScreen = getElementFromTemplate(template);
 
-const artistAnswerVersions = moduleGameOfChoiseArtist.querySelectorAll(`.main-answer`);
+const artistOptions = guessArtistScreen.querySelectorAll(`.main-answer`);
 
-artistAnswerVersions.forEach(function (elem) {
-  elem.onclick = () => {
-    renderScreen(gameGenreTemplate);
-  };
+artistOptions.forEach(function (elem) {
+  elem.addEventListener(`click`, () => {
+    renderScreen(guessGenreScreen);
+  });
 });
 
-export default moduleGameOfChoiseArtist;
+export default guessArtistScreen;

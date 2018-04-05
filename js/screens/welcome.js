@@ -1,6 +1,6 @@
 import {getElementFromTemplate} from './../util';
 import {renderScreen} from './../render';
-import gameArtistTemplate from './artist';
+import guessArtistScreen from './artist';
 
 const template = `
 <section class="main main--welcome">
@@ -15,10 +15,10 @@ const template = `
 </section>`;
 
 
-const moduleWelcome = getElementFromTemplate(template);
-const playButton = moduleWelcome.querySelector(`.main-play`);
-playButton.onclick = (evt) => {
+const welcomeScreen = getElementFromTemplate(template);
+const playButton = welcomeScreen.querySelector(`.main-play`);
+playButton.addEventListener(`click`, (evt) => {
   evt.preventDefault();
-  renderScreen(gameArtistTemplate);
-};
-export default moduleWelcome;
+  renderScreen(guessArtistScreen);
+});
+export default welcomeScreen;
