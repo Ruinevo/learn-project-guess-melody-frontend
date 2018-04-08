@@ -1,5 +1,5 @@
 import {getElementFromTemplate} from './../util';
-import {renderScreen} from './../render';
+import {renderScreen} from './../renderScreen';
 import welcomeScreen from './welcome';
 
 const template = `

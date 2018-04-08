@@ -1,6 +1,6 @@
 import {getElementFromTemplate} from './../util';
 import {getRandomFromArray} from './../util';
-import {renderScreen} from './../render';
+import {renderScreen} from './../renderScreen';
 import resultsScreen from './result';
 import timeOverScreen from './timeover-result';
 import livesOverScreen from './livesover-result';
