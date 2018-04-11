@@ -1,12 +1,12 @@
 import {assert} from 'chai';
 import {calculateScoresForGame} from './calculate-scores';
 
-let mockResultsRightNotFast = [];
-let mockResultsRightMixedSpeed = [];
+let mockResultsRightNotFast;
+let mockResultsRightMixedSpeed;
 
 describe(`Calculates points of player`, () => {
 
-  beforeEach(function () {
+  beforeEach(() => {
     mockResultsRightNotFast = [
       {success: true, time: 40},
       {success: true, time: 40},

@@ -1,14 +1,14 @@
 import {assert} from 'chai';
 import {showResult} from './show-result';
 
-let mockResultsOfOtherPlayers = [];
-let mockResultOfCurrentPlayer = {};
-
+let mockResultsOfOtherPlayers;
+let mockResultOfCurrentPlayer;
 
 describe(`Display results`, () => {
 
-  beforeEach(function () {
+  beforeEach(() => {
     mockResultsOfOtherPlayers = [4, 8, 10, 12];
+    mockResultOfCurrentPlayer = {};
     mockResultOfCurrentPlayer.time = 120;
     mockResultOfCurrentPlayer.lives = 3;
     mockResultOfCurrentPlayer.points = 12;
