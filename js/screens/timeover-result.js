@@ -1,5 +1,5 @@
-import {getElementFromTemplate} from './../util';
-import {renderScreen} from './../renderScreen';
+import {getElementFromTemplate} from './../game/util';
+import {renderScreen} from './../game/renderScreen';
 import welcomeScreen from './welcome';
 
 const template = `
