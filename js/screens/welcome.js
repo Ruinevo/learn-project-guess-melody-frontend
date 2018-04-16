@@ -1,7 +1,7 @@
 import {getElementFromTemplate} from './../game/util';
 import {renderScreen} from './../game/renderScreen';
 import guessArtistScreen from './artist';
-import guessArtistData from './../data/guessArtist-data';
+import guessArtistData from './../data/artist-data';
 
 const template = `
 <section class="main main--welcome">

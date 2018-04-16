@@ -4,7 +4,7 @@ class GameStore {
       lives: 3,
       resultsOfCurrentPlayer: [],
       countOfDisplayedScreens: 0,
-      statistics: [],
+      statistics: [5, 8, 12, 16],
       time: 320
     });
     this.currentState = Object.assign({}, this.initialState);
@@ -26,33 +26,36 @@ class GameStore {
     return this.currentState.statistics;
   }
 
-  setLives() {
+  removeLife() {
     this.currentState.lives--;
     return this;
   }
 
-  setResultsOfCurrentPlayer(currentResult) {
-    this.currentState.resultsOfCurrentPlayer.push(currentResult);
+  appendAnswer(answer) {
+    this.currentState.resultsOfCurrentPlayer.push(answer);
     return this;
   }
 
-  setCountOfDisplayedScreens() {
+  addDisplayedScreen() {
     this.currentState.countOfDisplayedScreens++;
     return this;
   }
 
+
   reset() {
     this.currentState = Object.assign({}, this.initialState);
+    this.currentState.resultsOfCurrentPlayer = [];
+    this.currentState.statistics = [];
     return this;
   }
 
-  setStatistics(result) {
+  addResultToStats(result) {
     this.statistics.push(result);
     return this;
   }
 
 }
 
-const currentData = new GameStore();
+const store = new GameStore();
 
-export default currentData;
+export default store;

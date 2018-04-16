@@ -3,14 +3,14 @@ import {getElementFromTemplate} from './../game/util';
 import headerTemplate from './../game/header';
 import switchScreen from './../game/switch-screen';
 
-import guessArtistData from './../data/guessArtist-data';
+import guessArtistData from './../data/artist-data';
 
-import currentData from './../data/game-store';
+import store from './../data/game-store';
 
 const TIME = 40; // в этом задании время не учитывается
 export default (data) => {
-  let currentState = Object.assign({}, currentData.initialState);
-  currentState.lives = currentData.lives;
+  let currentState = Object.assign({}, store.initialState);
+  currentState.lives = store.lives;
   const renderAnswers = (question) => question.answers.map((answer, idx) => `
   <div class="main-answer-wrapper">
     <input class="main-answer-r" type="radio" id="answer-${idx + 1}" name="answer" value="val-${idx + 1}"/>
@@ -58,11 +58,11 @@ export default (data) => {
       if (Number(selectedAnswerIdx) === guessArtistData.question.rightAnswer) {
         obj.success = true;
         obj.time = TIME;
-        currentData.resultsOfCurrentPlayer.push(obj);
+        store.appendAnswer(obj);
       } else {
         obj.success = false;
-        currentData.setResultsOfCurrentPlayer(obj);
-        currentData.setLives();
+        store.appendAnswer(obj);
+        store.removeLife();
       }
       switchScreen();
     });

@@ -1,38 +1,53 @@
 import guessArtistScreen from './../screens/artist';
 import guessGenreScreen from './../screens/genre';
-import livesOverScreen from './../screens/livesover-result';
-import resultScreen from './result';
-
+import resultScreen from './../screens/result';
 import {renderScreen} from './renderScreen';
 import {getRandomFromArray} from './util';
 import {calculateScoresForGame} from './calculate-scores';
-
-import guessGenreData from './../data/guessGenre-data';
-import guessArtistData from './../data/guessArtist-data';
-
-import currentData from './../data/game-store';
+import guessGenreData from './../data/genre-data';
+import guessArtistData from './../data/artist-data';
+import store from './../data/game-store';
 
 const ROUNDS = 10;
 
-const gameOver = (results, lives) => {
-  if (lives < 1) {
-    renderScreen(livesOverScreen);
-  } else {
-    const points = calculateScoresForGame(results, lives); // считаем очки
-    currentData.setStatistics(points);
-    renderScreen(resultScreen(currentData.statistics, points)); // показываем результат
+const TEMPLATE_TEXT = {
+  'result': {
+    h2: `Вы настоящий меломан!`,
+    button: `Сыграть ещё раз`
+  },
+  'livesover': {
+    h2: `Какая жалость!`,
+    button: `Попробовать ещё раз`
+  },
+  'timeover': {
+    h2: `Увы и ах!`,
+    button: `Попробовать ещё раз`
   }
-  currentData.reset();
+};
+
+
+const gameOver = (results, lives) => {
+  const points = calculateScoresForGame(results, lives);
+  const currentPlayer = {};
+  currentPlayer.points = points;
+  currentPlayer.lives = lives;
+  if (lives < 1) {
+    renderScreen(resultScreen(store.statistics, currentPlayer, TEMPLATE_TEXT.livesover));
+  } else {
+    store.addResultToStats(points);
+    renderScreen(resultScreen(store.statistics, currentPlayer, TEMPLATE_TEXT.result));
+  }
+  store.reset();
 };
 
 export default () => {
-  if (currentData.currentState.countOfDisplayedScreens < ROUNDS - 1 && currentData.currentState.lives > 0) {
+  if (store.currentState.countOfDisplayedScreens < ROUNDS - 1 && store.currentState.lives > 0) {
     const screens = [guessArtistScreen(guessArtistData.question), guessGenreScreen(guessGenreData.question)];
     const randomScreen = getRandomFromArray(screens);
     renderScreen(randomScreen);
-    currentData.setCountOfDisplayedScreens();
+    store.addDisplayedScreen();
   } else {
-    gameOver(currentData.resultsOfCurrentPlayer, currentData.lives);
+    gameOver(store.resultsOfCurrentPlayer, store.lives);
   }
 };
 

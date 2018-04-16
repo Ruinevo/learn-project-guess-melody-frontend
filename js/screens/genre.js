@@ -2,15 +2,15 @@ import {getElementFromTemplate} from './../game/util';
 import {setPauseAndPlay} from './../game/util';
 import headerTemplate from './../game/header';
 import switchScreen from './../game/switch-screen';
-import guessGenreData from './../data/guessGenre-data';
-import currentData from './../data/game-store';
+import guessGenreData from './../data/genre-data';
+import store from './../data/game-store';
 
 
 const TIME = 40; // в этом задании время не учитывается
 
 export default (data) => {
-  let currentState = Object.assign({}, currentData.initialState);
-  currentState.lives = currentData.lives;
+  let currentState = Object.assign({}, store.initialState);
+  currentState.lives = store.lives;
   const renderAnswers = (question) => question.answers.map((answer, idx) => ` 
     <div class="genre-answer">
       <div class="player-wrapper">
@@ -76,10 +76,10 @@ export default (data) => {
       obj.success = right;
       obj.time = TIME;
     } else {
-      currentData.setLives();
+      store.removeLife();
     }
 
-    currentData.setResultsOfCurrentPlayer(obj);
+    store.appendAnswer(obj);
     genreForm.reset();
     answerSubmitBtn.disabled = true;
     switchScreen();
