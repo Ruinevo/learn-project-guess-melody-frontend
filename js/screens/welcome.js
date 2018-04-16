@@ -1,7 +1,7 @@
 import {getElementFromTemplate} from './../game/util';
 import {renderScreen} from './../game/renderScreen';
 import guessArtistScreen from './artist';
-import {guessArtistData} from './../data/game-data';
+import guessArtistData from './../data/guessArtist-data';
 
 const template = `
 <section class="main main--welcome">
@@ -19,6 +19,6 @@ const welcomeScreen = getElementFromTemplate(template);
 const playButton = welcomeScreen.querySelector(`.main-play`);
 playButton.addEventListener(`click`, (evt) => {
   evt.preventDefault();
-  renderScreen(guessArtistScreen(guessArtistData.questions));
+  renderScreen(guessArtistScreen(guessArtistData.question));
 });
 export default welcomeScreen;

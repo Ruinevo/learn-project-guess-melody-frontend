@@ -2,19 +2,15 @@ import {getElementFromTemplate} from './../game/util';
 import {setPauseAndPlay} from './../game/util';
 import headerTemplate from './../game/header';
 import switchScreen from './../game/switch-screen';
-import {currentLives} from './../game/switch-screen';
-import {resultsOfCurrentPlayer} from './../game/switch-screen';
-import {loseLife} from './../game/switch-screen';
-
-import {INITIAL_GAME} from './../data/game-data';
-import {guessGenreData} from './../data/game-data';
+import guessGenreData from './../data/guessGenre-data';
+import currentData from './../data/game-store';
 
 
 const TIME = 40; // в этом задании время не учитывается
 
 export default (data) => {
-  let currentState = Object.assign({}, INITIAL_GAME);
-  currentState.lives = currentLives;
+  let currentState = Object.assign({}, currentData.initialState);
+  currentState.lives = currentData.lives;
   const renderAnswers = (question) => question.answers.map((answer, idx) => ` 
     <div class="genre-answer">
       <div class="player-wrapper">
@@ -70,13 +66,9 @@ export default (data) => {
 
   answerSubmitBtn.addEventListener(`click`, (evt) => {
     evt.preventDefault();
-    const selectedAnswersIdx = [];
-    Array.from(genreOptions).forEach((it, idx) => { // получаем массив с индексами выбранных ответов
-      if (it.checked) {
-        selectedAnswersIdx.push(idx + 1);
-      }
-    });
-    const rightAnswer = guessGenreData.questions.rightAnswers;
+    const arr = Array.from(genreOptions);
+    const selectedAnswersIdx = arr.filter((it) => it.checked).map((it) => arr.indexOf(it) + 1);
+    const rightAnswer = guessGenreData.question.rightAnswers;
     const right = selectedAnswersIdx.every((elem) => rightAnswer.indexOf(elem) !== -1 && selectedAnswersIdx.length === rightAnswer.length); // проверяем верность ответа
     const obj = {};
 
@@ -84,10 +76,10 @@ export default (data) => {
       obj.success = right;
       obj.time = TIME;
     } else {
-      loseLife();
+      currentData.setLives();
     }
 
-    resultsOfCurrentPlayer.push(obj);
+    currentData.setResultsOfCurrentPlayer(obj);
     genreForm.reset();
     answerSubmitBtn.disabled = true;
     switchScreen();

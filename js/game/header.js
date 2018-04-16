@@ -1,5 +1,6 @@
 import {addZero} from './util';
 
+const MAX_ERRORS_COUNT = 3;
 export default (state) => {
   return `
   <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +9,7 @@ export default (state) => {
     --><span class="timer-value-secs">${addZero(state.time % 60)}</span>
   </div>
   <div class="main-mistakes">
-    ${new Array(3 - state.lives)
+    ${new Array(MAX_ERRORS_COUNT - state.lives)
       .fill(`<img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">`)
       .join(``)}
   </div>`;

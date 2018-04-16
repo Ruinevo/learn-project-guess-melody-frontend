@@ -2,18 +2,15 @@ import {setPauseAndPlay} from './../game/util';
 import {getElementFromTemplate} from './../game/util';
 import headerTemplate from './../game/header';
 import switchScreen from './../game/switch-screen';
-import {currentLives} from './../game/switch-screen';
-import {loseLife} from './../game/switch-screen';
-import {resultsOfCurrentPlayer} from './../game/switch-screen';
 
-import {INITIAL_GAME} from './../data/game-data';
-import {guessArtistData} from './../data/game-data';
+import guessArtistData from './../data/guessArtist-data';
 
+import currentData from './../data/game-store';
 
 const TIME = 40; // в этом задании время не учитывается
 export default (data) => {
-  let currentState = Object.assign({}, INITIAL_GAME);
-  currentState.lives = currentLives;
+  let currentState = Object.assign({}, currentData.initialState);
+  currentState.lives = currentData.lives;
   const renderAnswers = (question) => question.answers.map((answer, idx) => `
   <div class="main-answer-wrapper">
     <input class="main-answer-r" type="radio" id="answer-${idx + 1}" name="answer" value="val-${idx + 1}"/>
@@ -58,14 +55,14 @@ export default (data) => {
     elem.addEventListener(`click`, (evt) => {
       const selectedAnswerIdx = evt.currentTarget.parentNode.querySelector(`input`).value.substr(-1); // получаем индекс выбранного пользователем ответа из атрибута value
       const obj = {};
-      if (Number(selectedAnswerIdx) === guessArtistData.questions.rightAnswer) {
+      if (Number(selectedAnswerIdx) === guessArtistData.question.rightAnswer) {
         obj.success = true;
         obj.time = TIME;
-        resultsOfCurrentPlayer.push(obj);
+        currentData.resultsOfCurrentPlayer.push(obj);
       } else {
         obj.success = false;
-        resultsOfCurrentPlayer.push(obj);
-        loseLife();
+        currentData.setResultsOfCurrentPlayer(obj);
+        currentData.setLives();
       }
       switchScreen();
     });
