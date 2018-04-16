@@ -11,15 +11,15 @@ import store from './../data/game-store';
 const ROUNDS = 10;
 
 const TEMPLATE_TEXT = {
-  'result': {
+  result: {
     h2: `Вы настоящий меломан!`,
     button: `Сыграть ещё раз`
   },
-  'livesover': {
+  livesover: {
     h2: `Какая жалость!`,
     button: `Попробовать ещё раз`
   },
-  'timeover': {
+  timeover: {
     h2: `Увы и ах!`,
     button: `Попробовать ещё раз`
   }
@@ -42,7 +42,7 @@ const gameOver = (results, lives) => {
 
 export default () => {
   if (store.currentState.countOfDisplayedScreens < ROUNDS - 1 && store.currentState.lives > 0) {
-    const screens = [guessArtistScreen(guessArtistData.question), guessGenreScreen(guessGenreData.question)];
+    const screens = [guessArtistScreen(guessArtistData), guessGenreScreen(guessGenreData)];
     const randomScreen = getRandomFromArray(screens);
     renderScreen(randomScreen);
     store.addDisplayedScreen();

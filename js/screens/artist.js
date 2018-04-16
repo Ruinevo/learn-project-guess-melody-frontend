@@ -54,17 +54,17 @@ export default (data) => {
   Array.from(artistOptions).forEach((elem) => {
     elem.addEventListener(`click`, (evt) => {
       const selectedAnswerIdx = evt.currentTarget.parentNode.querySelector(`input`).value.substr(-1); // получаем индекс выбранного пользователем ответа из атрибута value
-      const obj = {};
-      if (Number(selectedAnswerIdx) === guessArtistData.question.rightAnswer) {
-        obj.success = true;
-        obj.time = TIME;
-        store.appendAnswer(obj);
+      const currentAnswer = {};
+      if (Number(selectedAnswerIdx) === guessArtistData.rightAnswer) {
+        currentAnswer.success = true;
+        currentAnswer.time = TIME;
+        store.appendAnswer(currentAnswer);
       } else {
-        obj.success = false;
-        store.appendAnswer(obj);
+        currentAnswer.success = false;
         store.removeLife();
       }
       switchScreen();
+      store.appendAnswer(currentAnswer);
     });
   });
 

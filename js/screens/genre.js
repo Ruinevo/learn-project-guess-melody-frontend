@@ -68,18 +68,18 @@ export default (data) => {
     evt.preventDefault();
     const arr = Array.from(genreOptions);
     const selectedAnswersIdx = arr.filter((it) => it.checked).map((it) => arr.indexOf(it) + 1);
-    const rightAnswer = guessGenreData.question.rightAnswers;
+    const rightAnswer = guessGenreData.rightAnswers;
     const right = selectedAnswersIdx.every((elem) => rightAnswer.indexOf(elem) !== -1 && selectedAnswersIdx.length === rightAnswer.length); // проверяем верность ответа
-    const obj = {};
+    const currentAnswer = {};
 
     if (right) {
-      obj.success = right;
-      obj.time = TIME;
+      currentAnswer.success = right;
+      currentAnswer.time = TIME;
     } else {
       store.removeLife();
     }
 
-    store.appendAnswer(obj);
+    store.appendAnswer(currentAnswer);
     genreForm.reset();
     answerSubmitBtn.disabled = true;
     switchScreen();

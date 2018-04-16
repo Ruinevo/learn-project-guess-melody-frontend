@@ -19,6 +19,6 @@ const welcomeScreen = getElementFromTemplate(template);
 const playButton = welcomeScreen.querySelector(`.main-play`);
 playButton.addEventListener(`click`, (evt) => {
   evt.preventDefault();
-  renderScreen(guessArtistScreen(guessArtistData.question));
+  renderScreen(guessArtistScreen(guessArtistData));
 });
 export default welcomeScreen;
