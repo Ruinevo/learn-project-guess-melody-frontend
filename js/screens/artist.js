@@ -58,13 +58,12 @@ export default (data) => {
       if (Number(selectedAnswerIdx) === guessArtistData.rightAnswer) {
         currentAnswer.success = true;
         currentAnswer.time = TIME;
-        store.appendAnswer(currentAnswer);
       } else {
         currentAnswer.success = false;
         store.removeLife();
       }
-      switchScreen();
       store.appendAnswer(currentAnswer);
+      switchScreen();
     });
   });
 
