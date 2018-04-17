@@ -1,76 +1,73 @@
-import {getElementFromTemplate} from './../util';
-import {renderScreen} from './../renderScreen';
-import guessGenreScreen from './genre';
+import {setPauseAndPlay} from './../game/util';
+import {getElementFromTemplate} from './../game/util';
+import headerTemplate from './../game/header';
+import switchScreen from './../game/switch-screen';
 
-const template = `
-<section class="main main--level main--level-artist">
-  <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
-    <circle
-      cx="390" cy="390" r="370"
-      class="timer-line"
-      style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
+import guessArtistData from './../data/artist-data';
 
-    <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-      <span class="timer-value-mins">05</span><!--
-      --><span class="timer-value-dots">:</span><!--
-      --><span class="timer-value-secs">00</span>
-    </div>
-  </svg>
-  <div class="main-mistakes">
-    <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-    <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-  </div>
+import store from './../data/game-store';
 
-  <div class="main-wrap">
-    <h2 class="title main-title">Кто исполняет эту песню?</h2>
-    <div class="player-wrapper">
-      <div class="player">
-        <audio></audio>
-        <button class="player-control player-control--pause"></button>
-        <div class="player-track">
-          <span class="player-status"></span>
+const TIME = 40; // в этом задании время не учитывается
+export default (data) => {
+  let currentState = Object.assign({}, store.initialState);
+  currentState.lives = store.lives;
+  const renderAnswers = (question) => question.answers.map((answer, idx) => `
+  <div class="main-answer-wrapper">
+    <input class="main-answer-r" type="radio" id="answer-${idx + 1}" name="answer" value="val-${idx + 1}"/>
+    <label class="main-answer" for="answer-${idx + 1}">
+      <img class="main-answer-preview" src="${answer.image}" alt="${answer.text}" width="134" height="134">
+        ${answer.text}
+      </label>
+  </div>`).join(``);
+
+  const content = `
+  <section class="main main--level main--level-artist">
+    <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
+      <circle
+        cx="390" cy="390" r="370"
+        class="timer-line"
+        style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center">
+      </circle>
+    </svg>
+    ${headerTemplate(currentState)}
+    <div class="main-wrap">
+      <h2 class="title main-title">Кто исполняет эту песню?</h2>
+      <div class="player-wrapper">
+        <div class="player">
+          <audio src="${data.src}"></audio>
+          <button class="player-control"></button>
+          <div class="player-track">
+            <span class="player-status"></span>
+          </div>
         </div>
       </div>
+      <form class="main-list">
+        ${renderAnswers(data)}
+      </form>
     </div>
-    <form class="main-list">
-      <div class="main-answer-wrapper">
-        <input class="main-answer-r" type="radio" id="answer-1" name="answer" value="val-1"/>
-        <label class="main-answer" for="answer-1">
-          <img class="main-answer-preview" src="http://placehold.it/134x134"
-               alt="Пелагея" width="134" height="134">
-          Пелагея
-        </label>
-      </div>
+  </section>`;
+  const element = getElementFromTemplate(content);
+  const artistOptions = element.querySelectorAll(`.main-answer`);
+  const playerBtn = element.querySelector(`.player-control`);
+  const audio = element.querySelector(`audio`);
 
-      <div class="main-answer-wrapper">
-        <input class="main-answer-r" type="radio" id="answer-2" name="answer" value="val-2"/>
-        <label class="main-answer" for="answer-2">
-          <img class="main-answer-preview" src="http://placehold.it/134x134"
-               alt="Краснознаменная дивизия имени моей бабушки" width="134" height="134">
-          Краснознаменная дивизия имени моей бабушки
-        </label>
-      </div>
-
-      <div class="main-answer-wrapper">
-        <input class="main-answer-r" type="radio" id="answer-3" name="answer" value="val-3"/>
-        <label class="main-answer" for="answer-3">
-          <img class="main-answer-preview" src="http://placehold.it/134x134"
-               alt="Lorde" width="134" height="134">
-          Lorde
-        </label>
-      </div>
-    </form>
-  </div>
-</section>`;
-
-const guessArtistScreen = getElementFromTemplate(template);
-
-const artistOptions = guessArtistScreen.querySelectorAll(`.main-answer`);
-
-artistOptions.forEach((elem) => {
-  elem.addEventListener(`click`, () => {
-    renderScreen(guessGenreScreen);
+  Array.from(artistOptions).forEach((elem) => {
+    elem.addEventListener(`click`, (evt) => {
+      const selectedAnswerIdx = evt.currentTarget.parentNode.querySelector(`input`).value.substr(-1); // получаем индекс выбранного пользователем ответа из атрибута value
+      const currentAnswer = {};
+      if (Number(selectedAnswerIdx) === guessArtistData.rightAnswer) {
+        currentAnswer.success = true;
+        currentAnswer.time = TIME;
+      } else {
+        currentAnswer.success = false;
+        store.removeLife();
+      }
+      store.appendAnswer(currentAnswer);
+      switchScreen();
+    });
   });
-});
 
-export default guessArtistScreen;
+  setPauseAndPlay(playerBtn, audio);
+
+  return element;
+};

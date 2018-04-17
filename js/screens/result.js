@@ -1,26 +1,38 @@
-import {getElementFromTemplate} from './../util';
-import {renderScreen} from './../renderScreen';
-import welcomeScreen from './welcome';
+import {getElementFromTemplate} from './../game/util';
+import {renderScreen} from './../game/renderScreen';
+import welcomeScreen from './../screens/welcome';
+import {showResult} from './../game/show-result';
 
-const template = `
-<section class="main main--result">
-  <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
+const MAX_ERRORS_COUNT = 3;
 
-  <h2 class="title">Вы настоящий меломан!</h2>
-  <div class="main-stat">За&nbsp;3&nbsp;минуты и 25&nbsp;секунд
-    <br>вы&nbsp;набрали 12 баллов (8 быстрых)
-    <br>совершив 3 ошибки
-  </div>
-  <span class="main-comparison">Вы заняли 2 место из 10. Это&nbsp;лучше чем у&nbsp;80%&nbsp;игроков</span>
-  <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
-</section>`;
+export default (statistics, currentPlayer, template) => {
 
-const resultsScreen = getElementFromTemplate(template);
-const replayBtn = resultsScreen.querySelector(`.main-replay`);
+  const setTemplateResultScreen = () => {
+    if (currentPlayer.lives <= 0) {
+      return `<div class="main-stat">${showResult(statistics, currentPlayer)}</div>`;
+    } else {
+      return `<div class="main-stat">За&nbsp;3&nbsp;минуты и 25&nbsp;секунд
+         <br>вы&nbsp;набрали ${currentPlayer.points} баллов (8 быстрых)
+         <br>совершив ${MAX_ERRORS_COUNT - currentPlayer.lives} ошибки
+        </div>
+      <span class="main-comparison">${showResult(statistics, currentPlayer)}</span>`;
+    }
+  };
+  const content = `
+  <section class="main main--result">
+    <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
+    <h2 class="title">${template.h2}</h2>
+    ${setTemplateResultScreen()}
+    <span role="button" tabindex="0" class="main-replay">${template.button}</span>
+  </section>`;
 
-replayBtn.addEventListener(`click`, (evt) => {
-  evt.preventDefault();
-  renderScreen(welcomeScreen);
-});
+  const element = getElementFromTemplate(content);
+  const replayBtn = element.querySelector(`.main-replay`);
 
-export default resultsScreen;
+  replayBtn.addEventListener(`click`, (evt) => {
+    evt.preventDefault();
+    renderScreen(welcomeScreen);
+  });
+
+  return element;
+};

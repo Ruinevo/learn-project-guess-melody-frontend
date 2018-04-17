@@ -4,4 +4,3 @@ export const renderScreen = (element) => {
   app.innerHTML = ``;
   app.appendChild(element);
 };
-
