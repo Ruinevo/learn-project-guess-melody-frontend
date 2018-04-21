@@ -55,7 +55,7 @@ export default class ArtistView extends AbstractView {
   renderAnswers(answers) {
     return answers.map((answer, idx) => `
       <div class="main-answer-wrapper">
-	      <input class="main-answer-r" type="radio" id="answer-${idx + 1}" name="answer" value="val-${idx + 1}"/>
+	      <input class="main-answer-r" type="radio" id="answer-${idx + 1}" name="answer" value="${idx + 1}"/>
 	      <label class="main-answer" for="answer-${idx + 1}">
 	        <img class="main-answer-preview" src="${answer.image}" alt="${answer.text}" width="134" height="134">
 	          ${answer.text}

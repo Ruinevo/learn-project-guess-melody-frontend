@@ -21,21 +21,14 @@ const TYPE_TEXT = {
 
 export default () => {
   const points = calculateScoresForGame(store.resultsOfCurrentPlayer, store.lives);
-  let view;
   const currentPlayer = {};
   currentPlayer.points = points;
   currentPlayer.lives = store.lives;
-  if (currentPlayer.lives <= 0) {
-    view = new ResultView(store.statistics, currentPlayer, TYPE_TEXT.livesover);
-    view.onReplayClick = () => {
-      welcomeScreen();
-    };
-  } else {
-    view = new ResultView(store.statistics, currentPlayer, TYPE_TEXT.result);
-    view.onReplayClick = () => {
-      welcomeScreen();
-    };
-  }
+  const typeText = currentPlayer.lives <= 0 ? TYPE_TEXT.livesover : TYPE_TEXT.result;
+  const view = new ResultView(store.statistics, currentPlayer, typeText);
+  view.onReplayClick = () => {
+    welcomeScreen();
+  };
   store.addResultToStats(points);
   store.reset();
   renderScreen(view);

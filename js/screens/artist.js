@@ -9,7 +9,7 @@ const TIME = 40; // в этом задании время не учитывае�
 export default () => {
   const view = new ArtistView(guessArtistData, store);
   view.onAnswerClick = (evt) => {
-    const selectedAnswerIdx = evt.target.value.substr(-1); // получаем индекс выбранного пользователем ответа из атрибута value
+    const selectedAnswerIdx = evt.target.value; // получаем индекс выбранного пользователем ответа из атрибута value
     const currentAnswer = {};
     if (Number(selectedAnswerIdx) === guessArtistData.rightAnswer) {
       currentAnswer.success = true;
