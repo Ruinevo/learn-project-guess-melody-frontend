@@ -4,7 +4,7 @@ class GameStore {
       lives: 3,
       resultsOfCurrentPlayer: [],
       countOfDisplayedScreens: 0,
-      statistics: [5, 8, 12, 16],
+      statistics: [],
       time: 320
     });
     this.currentState = Object.assign({}, this.initialState);
