@@ -7,7 +7,7 @@ import GenreView from './../view/genre-view';
 const TIME = 40; // в этом задании время не учитывается
 
 export default () => {
-  const view = new GenreView(guessGenreData);
+  const view = new GenreView(guessGenreData, store);
   view.onAnswerClick = () => {
     let isSubmitEnabled = Array.from(genreOptions).some((it) => it.checked);
     answerSubmitBtn.disabled = !isSubmitEnabled;
@@ -35,6 +35,6 @@ export default () => {
   const answerSubmitBtn = view.element.querySelector(`.genre-answer-send`);
   answerSubmitBtn.disabled = true;
   view.controlPlayer();
-  renderScreen(view.element);
+  renderScreen(view);
 };
 

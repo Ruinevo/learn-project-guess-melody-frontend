@@ -2,5 +2,5 @@
 export const renderScreen = (element) => {
   const app = document.querySelector(`.app`);
   app.innerHTML = ``;
-  app.appendChild(element);
+  app.appendChild(element.element);
 };

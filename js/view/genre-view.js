@@ -1,14 +1,13 @@
 import AbstractView from './abstract-view';
-import store from './../data/game-store';
 import headerTemplate from './../game/header';
 import {setPauseAndPlay} from './../game/util';
 
 export default class GenreView extends AbstractView {
-  constructor(question) {
+  constructor(question, state) {
     super();
     this.text = question.text;
     this.answers = question.answers;
-    this.currentState = store.currentState;
+    this.state = state;
   }
 
   get template() {
@@ -20,7 +19,7 @@ export default class GenreView extends AbstractView {
           class="timer-line"
           style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
       </svg>
-      ${headerTemplate(this.currentState)}
+      ${headerTemplate(this.state.currentState)}
       <div class="main-wrap">
         <h2 class="title">${this.text}</h2>
         <form class="genre">

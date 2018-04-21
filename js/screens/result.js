@@ -38,5 +38,5 @@ export default () => {
   }
   store.addResultToStats(points);
   store.reset();
-  renderScreen(view.element);
+  renderScreen(view);
 };

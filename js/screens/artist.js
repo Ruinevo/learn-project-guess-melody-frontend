@@ -7,9 +7,9 @@ import ArtistView from './../view/artist-view';
 const TIME = 40; // в этом задании время не учитывается
 
 export default () => {
-  const view = new ArtistView(guessArtistData);
+  const view = new ArtistView(guessArtistData, store);
   view.onAnswerClick = (evt) => {
-    const selectedAnswerIdx = evt.currentTarget.parentNode.querySelector(`input`).value.substr(-1); // получаем индекс выбранного пользователем ответа из атрибута value
+    const selectedAnswerIdx = evt.target.value.substr(-1); // получаем индекс выбранного пользователем ответа из атрибута value
     const currentAnswer = {};
     if (Number(selectedAnswerIdx) === guessArtistData.rightAnswer) {
       currentAnswer.success = true;
@@ -22,6 +22,6 @@ export default () => {
     switchScreen();
   };
   view.controlPlayer();
-  renderScreen(view.element);
+  renderScreen(view);
 };
 

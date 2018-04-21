@@ -8,5 +8,5 @@ export default () => {
     evt.preventDefault();
     guessArtistScreen();
   };
-  renderScreen(welcome.element);
+  renderScreen(welcome);
 };

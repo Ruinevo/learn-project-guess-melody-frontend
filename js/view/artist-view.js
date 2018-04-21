@@ -1,14 +1,13 @@
 import AbstractView from './abstract-view';
-import store from './../data/game-store';
 import headerTemplate from './../game/header';
 import {setPauseAndPlay} from './../game/util';
 
 export default class ArtistView extends AbstractView {
-  constructor(question) {
+  constructor(question, state) {
     super();
     this.src = question.src;
     this.answers = question.answers;
-    this.currentState = store.currentState;
+    this.state = state;
   }
 
   get template() {
@@ -21,7 +20,7 @@ export default class ArtistView extends AbstractView {
 		        style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center">
 		      </circle>
 		    </svg>
-				 ${headerTemplate(this.currentState)}
+				 ${headerTemplate(this.state.currentState)}
 		    <div class="main-wrap">
 		      <h2 class="title main-title">Кто исполняет эту песню?</h2>
 		      <div class="player-wrapper">
@@ -41,9 +40,9 @@ export default class ArtistView extends AbstractView {
   }
 
   bind() {
-    const artistOptions = this.element.querySelectorAll(`.main-answer`);
+    const artistOptions = this.element.querySelectorAll(`.main-answer-r`);
     Array.from(artistOptions).forEach((elem) => {
-      elem.addEventListener(`click`, this.onAnswerClick);
+      elem.addEventListener(`change`, this.onAnswerClick);
     });
   }
 
