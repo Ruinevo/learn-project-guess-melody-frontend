@@ -1,5 +1,5 @@
 export default {
-
+  type: `genre`,
   text: `Выберите инди-рок треки`,
   answers: [
     {
@@ -16,5 +16,5 @@ export default {
       src: `https://www.youtube.com/audiolibrary_download?vid=bcbe5be936a32fb1`,
     }
   ],
-  rightAnswers: [4]
+  rightAnswer: [4]
 };

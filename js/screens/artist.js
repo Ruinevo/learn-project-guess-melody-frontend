@@ -1,27 +1,35 @@
-import switchScreen from './../game/switch-screen';
-import {renderScreen} from './../game/renderScreen';
 import guessArtistData from './../data/artist-data';
 import store from './../data/game-store';
-import ArtistView from './../view/artist-view';
+import AbstractScreen from './game';
 
-const TIME = 40; // в этом задании время не учитывается
-
-export default () => {
-  const view = new ArtistView(guessArtistData, store);
-  view.onAnswerClick = (evt) => {
-    const selectedAnswerIdx = evt.target.value; // получаем индекс выбранного пользователем ответа из атрибута value
-    const currentAnswer = {};
-    if (Number(selectedAnswerIdx) === guessArtistData.rightAnswer) {
-      currentAnswer.success = true;
-      currentAnswer.time = TIME;
-    } else {
-      currentAnswer.success = false;
-      store.removeLife();
+class ArtistScreen extends AbstractScreen {
+  constructor(state, data) {
+    super();
+    if (new.target === AbstractScreen) {
+      throw new Error(`Can't instantiate AbstractView, only concrete one`);
     }
-    store.appendAnswer(currentAnswer);
-    switchScreen();
-  };
-  view.controlPlayer();
-  renderScreen(view);
-};
+    this.state = state;
+    this.data = data;
+    this._interval = null;
+    this.answerTime = 0;
 
+  }
+
+  createGameLevel() {
+    this.getLevelType();
+    this.view.onAnswerClick = (evt) => {
+      evt.preventDefault();
+      this.stopGame();
+      this.view.processingAnswer(evt, this.answerTime);
+      this.answerTime = 0;
+      this.updateHeader();
+      this.showNextScreen(this.state);
+    };
+    this.view.element.appendChild(this.header.element);
+
+  }
+}
+
+const artist = new ArtistScreen(store, guessArtistData);
+
+export default artist;

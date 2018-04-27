@@ -1,8 +1,7 @@
 import {renderScreen} from './../game/renderScreen';
-import welcomeScreen from './../screens/welcome';
-import store from './../data/game-store';
 import {calculateScoresForGame} from './../game/calculate-scores';
 import ResultView from './../view/result-view';
+import Application from './application';
 
 const TYPE_TEXT = {
   result: {
@@ -19,17 +18,32 @@ const TYPE_TEXT = {
   }
 };
 
-export default () => {
-  const points = calculateScoresForGame(store.resultsOfCurrentPlayer, store.lives);
-  const currentPlayer = {};
-  currentPlayer.points = points;
-  currentPlayer.lives = store.lives;
-  const typeText = currentPlayer.lives <= 0 ? TYPE_TEXT.livesover : TYPE_TEXT.result;
-  const view = new ResultView(store.statistics, currentPlayer, typeText);
-  view.onReplayClick = () => {
-    welcomeScreen();
-  };
-  store.addResultToStats(points);
-  store.reset();
-  renderScreen(view);
-};
+export default class ResultScreen {
+  constructor(state) {
+    this.state = state;
+  }
+
+  showResults() {
+    const points = calculateScoresForGame(this.state.resultsOfCurrentPlayer, this.state.lives, this.state.time);
+    const currentPlayer = {};
+    currentPlayer.points = points;
+    currentPlayer.lives = this.state.lives;
+    currentPlayer.time = this.state.time;
+    let typeText;
+    if (currentPlayer.time <= 0) {
+      typeText = TYPE_TEXT.timeover;
+    } else if (currentPlayer.lives <= 0) {
+      typeText = TYPE_TEXT.livesover;
+    } else {
+      typeText = TYPE_TEXT.result;
+    }
+    this.view = new ResultView(this.state.statistics, currentPlayer, typeText);
+    this.view.onReplayClick = () => {
+      Application.showGame();
+    };
+    this.state.addResultToStats(points);
+
+    renderScreen(this.view);
+    this.state.reset();
+  }
+}

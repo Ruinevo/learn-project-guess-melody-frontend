@@ -1,13 +1,13 @@
 import AbstractView from './abstract-view';
-import headerTemplate from './../game/header';
-import {setPauseAndPlay} from './../game/util';
+
 
 export default class ArtistView extends AbstractView {
-  constructor(question, state) {
+  constructor(question, store) {
     super();
     this.src = question.src;
     this.answers = question.answers;
-    this.state = state;
+    this.store = store;
+    this.rightAnswer = question.rightAnswer;
   }
 
   get template() {
@@ -20,7 +20,6 @@ export default class ArtistView extends AbstractView {
 		        style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center">
 		      </circle>
 		    </svg>
-				 ${headerTemplate(this.state.currentState)}
 		    <div class="main-wrap">
 		      <h2 class="title main-title">Кто исполняет эту песню?</h2>
 		      <div class="player-wrapper">
@@ -46,11 +45,6 @@ export default class ArtistView extends AbstractView {
     });
   }
 
-  controlPlayer() {
-    const playerBtn = this.element.querySelector(`.player-control`);
-    const audio = this.element.querySelector(`audio`);
-    setPauseAndPlay(playerBtn, audio);
-  }
 
   renderAnswers(answers) {
     return answers.map((answer, idx) => `
@@ -63,7 +57,23 @@ export default class ArtistView extends AbstractView {
 	    </div>`).join(``);
   }
 
-  onAnswerClick() {}
+  processingAnswer(evt, answerTime) {
+    const selectedAnswerIdx = evt.target.value;
+    const currentAnswer = {};
+    if (Number(selectedAnswerIdx) === this.rightAnswer) {
+      currentAnswer.success = true;
+      currentAnswer.time = answerTime;
+    } else {
+      currentAnswer.success = false;
+      this.store.removeLife();
+    }
+    this.store.appendAnswer(currentAnswer);
+  }
+
+
+  onAnswerClick() {
+	
+  }
 
 }
 

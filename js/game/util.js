@@ -15,16 +15,31 @@ export const addZero = (value) => value < 10 ? `0` + value : value;
 
 // функция проигрывает и ставит на паузу аудиофайл
 
-export const setPauseAndPlay = (btn, audio) => {
-  btn.addEventListener(`click`, (evt) => {
-    evt.preventDefault();
-    const el = evt.currentTarget;
-    if (el.classList.contains(`player-control--pause`)) {
-      el.classList.remove(`player-control--pause`);
+export const settingPlayer = (html) => {
+
+  const myMap = new Map();
+  const players = html.element.querySelectorAll(`.player`);
+
+  players.forEach((player) => {
+    const audio = player.querySelector(`audio`);
+    const control = player.querySelector(`.player-control`);
+    myMap.set(control, audio);
+  });
+
+  const stopAllTracks = (evt) => myMap.forEach((audio, control) => {
+    if (control !== evt.target && !audio.paused) {
       audio.pause();
-    } else {
-      el.classList.add(`player-control--pause`);
-      audio.play();
+      control.classList.toggle(`player-control--pause`, !audio.paused);
     }
   });
+
+  myMap.forEach((audio, control) => {
+    control.addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      stopAllTracks(evt);
+      !audio.paused ? audio.pause() : audio.play();
+      control.classList.toggle(`player-control--pause`);
+    });
+  });
 };
+

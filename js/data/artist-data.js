@@ -1,5 +1,5 @@
 export default {
-
+  type: `artist`,
   src: `https://www.youtube.com/audiolibrary_download?vid=bcbe5be936a32fb1`,
   answers: [
     {

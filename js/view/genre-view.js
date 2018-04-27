@@ -1,13 +1,13 @@
 import AbstractView from './abstract-view';
-import headerTemplate from './../game/header';
-import {setPauseAndPlay} from './../game/util';
+
 
 export default class GenreView extends AbstractView {
-  constructor(question, state) {
+  constructor(question, store) {
     super();
     this.text = question.text;
     this.answers = question.answers;
-    this.state = state;
+    this.store = store;
+    this.rightAnswer = question.rightAnswer;
   }
 
   get template() {
@@ -19,12 +19,11 @@ export default class GenreView extends AbstractView {
           class="timer-line"
           style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
       </svg>
-      ${headerTemplate(this.state.currentState)}
       <div class="main-wrap">
         <h2 class="title">${this.text}</h2>
         <form class="genre">
           ${this.renderAnswers(this.answers)}
-          <button class="genre-answer-send" type="submit">Ответить</button>
+          <button class="genre-answer-send" type="submit" disabled>Ответить</button>
         </form>
       </div>
     </section>`;
@@ -37,15 +36,6 @@ export default class GenreView extends AbstractView {
       elem.addEventListener(`click`, this.onAnswerClick);
     });
     answerSubmitBtn.addEventListener(`click`, this.onSubmitClick);
-  }
-
-  controlPlayer() {
-    const answers = this.element.querySelectorAll(`.genre-answer`);
-    Array.from(answers).forEach((elem) => {
-      const playerBtn = elem.querySelector(`.player-control`);
-      const audio = elem.querySelector(`audio`);
-      setPauseAndPlay(playerBtn, audio);
-    });
   }
 
 
@@ -69,6 +59,31 @@ export default class GenreView extends AbstractView {
       <input type="checkbox" name="answer" value="answer-${idx + 1}" id="a-${idx + 1}">
       <label class="genre-answer-check" for="a-${idx + 1}"></label>
     </div>`).join(``);
+  }
+
+  isAnswerSelected() {
+    const genreOptions = this.element.querySelectorAll(`input[type=checkbox]`);
+    const answerSubmitBtn = this.element.querySelector(`.genre-answer-send`);
+    answerSubmitBtn.disabled = true;
+    let isSubmitEnabled = Array.from(genreOptions).some((it) => it.checked);
+    answerSubmitBtn.disabled = !isSubmitEnabled;
+  }
+
+
+  processingAnswer(answerTime) {
+    const genreOptions = this.element.querySelectorAll(`input[type=checkbox]`);
+    const arr = Array.from(genreOptions);
+    const selectedAnswersIdx = arr.filter((it) => it.checked).map((it) => arr.indexOf(it) + 1);
+    const right = selectedAnswersIdx.every((elem) => this.rightAnswer.indexOf(elem) !== -1);
+    const currentAnswer = {};
+    if (right && selectedAnswersIdx.length === this.rightAnswer.length) {
+      currentAnswer.success = right;
+      currentAnswer.time = answerTime;
+    } else {
+      this.store.removeLife();
+    }
+    this.store.appendAnswer(currentAnswer);
+    this.resetForm();
   }
 
   onAnswerClick() {}
