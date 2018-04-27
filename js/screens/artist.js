@@ -1,17 +1,17 @@
 import guessArtistData from './../data/artist-data';
 import store from './../data/game-store';
-import AbstractScreen from './game';
+import AbstractScreen from './../game';
+import switchScreen from './../game/switch-screen';
+import HeaderView from './../game/header';
 
 class ArtistScreen extends AbstractScreen {
   constructor(state, data) {
     super();
-    if (new.target === AbstractScreen) {
-      throw new Error(`Can't instantiate AbstractView, only concrete one`);
-    }
     this.state = state;
     this.data = data;
     this._interval = null;
     this.answerTime = 0;
+    this.header = new HeaderView(this.state);
 
   }
 
@@ -23,7 +23,7 @@ class ArtistScreen extends AbstractScreen {
       this.view.processingAnswer(evt, this.answerTime);
       this.answerTime = 0;
       this.updateHeader();
-      this.showNextScreen(this.state);
+      switchScreen();
     };
     this.view.element.appendChild(this.header.element);
 

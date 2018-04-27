@@ -1,23 +1,18 @@
-
+import AbstractScreen from './../game';
 import guessGenreData from './../data/genre-data';
 import store from './../data/game-store';
-
-
-import AbstractScreen from './game';
-
+import switchScreen from './../game/switch-screen';
+import HeaderView from './../game/header';
 
 class GenreScreen extends AbstractScreen {
 
   constructor(state, data) {
     super();
-    if (new.target === AbstractScreen) {
-      throw new Error(`Can't instantiate AbstractScreen, only concrete one`);
-    }
-
     this.state = state;
     this.data = data;
     this._interval = null;
     this.answerTime = 0;
+    this.header = new HeaderView(this.state);
 
   }
 
@@ -33,7 +28,7 @@ class GenreScreen extends AbstractScreen {
       this.answerTime = 0;
       this.updateHeader();
       this.stopGame();
-      this.showNextScreen(this.state);
+      switchScreen();
     };
     this.view.element.appendChild(this.header.element);
   }

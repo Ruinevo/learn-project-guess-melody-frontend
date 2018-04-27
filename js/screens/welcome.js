@@ -1,6 +1,7 @@
 import {renderScreen} from './../game/renderScreen';
 import WelcomeView from './../view/welcome-view';
-import AbstractScreen from './game';
+import AbstractScreen from './../game';
+import switchScreen from './../game/switch-screen';
 
 export default class WelcomeScreen extends AbstractScreen {
   constructor(state) {
@@ -12,7 +13,7 @@ export default class WelcomeScreen extends AbstractScreen {
   init() {
     this.view.onPlayClick = (evt) => {
       evt.preventDefault();
-      this.showNextScreen(this.state);
+      switchScreen();
     };
     renderScreen(this.view);
   }
