@@ -2,12 +2,13 @@ import AbstractView from './abstract-view';
 
 
 export default class GenreView extends AbstractView {
-  constructor(question, store) {
+  constructor(store) {
     super();
-    this.text = question.text;
-    this.answers = question.answers;
     this.store = store;
-    this.rightAnswer = question.rightAnswer;
+    this.text = this.store.guessGenreData.text;
+    this.answers = this.store.guessGenreData.answers;
+    this.rightAnswer = this.store.guessGenreData.rightAnswer;
+
   }
 
   get template() {
@@ -59,31 +60,6 @@ export default class GenreView extends AbstractView {
       <input type="checkbox" name="answer" value="answer-${idx + 1}" id="a-${idx + 1}">
       <label class="genre-answer-check" for="a-${idx + 1}"></label>
     </div>`).join(``);
-  }
-
-  isAnswerSelected() {
-    const genreOptions = this.element.querySelectorAll(`input[type=checkbox]`);
-    const answerSubmitBtn = this.element.querySelector(`.genre-answer-send`);
-    answerSubmitBtn.disabled = true;
-    let isSubmitEnabled = Array.from(genreOptions).some((it) => it.checked);
-    answerSubmitBtn.disabled = !isSubmitEnabled;
-  }
-
-
-  processingAnswer(answerTime) {
-    const genreOptions = this.element.querySelectorAll(`input[type=checkbox]`);
-    const arr = Array.from(genreOptions);
-    const selectedAnswersIdx = arr.filter((it) => it.checked).map((it) => arr.indexOf(it) + 1);
-    const right = selectedAnswersIdx.every((elem) => this.rightAnswer.indexOf(elem) !== -1);
-    const currentAnswer = {};
-    if (right && selectedAnswersIdx.length === this.rightAnswer.length) {
-      currentAnswer.success = right;
-      currentAnswer.time = answerTime;
-    } else {
-      this.store.removeLife();
-    }
-    this.store.appendAnswer(currentAnswer);
-    this.resetForm();
   }
 
   onAnswerClick() {}

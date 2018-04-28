@@ -2,7 +2,7 @@ import {addZero} from './util';
 import AbstractView from './../view/abstract-view';
 
 const MAX_ERRORS_COUNT = 3;
-export default class HeaderScreen extends AbstractView {
+export default class HeaderView extends AbstractView {
   constructor(state) {
     super();
     this.state = state;
@@ -17,12 +17,27 @@ export default class HeaderScreen extends AbstractView {
           --><span class="timer-value-secs">${addZero(this.state.time % 60)}</span>
         </div>
         <div class="main-mistakes">
-      ${new Array(MAX_ERRORS_COUNT - this.state.lives)
-      .fill(`<img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">`)
-      .join(``)}
         </div>
       </div>
     `;
+  }
+
+
+  bind() {
+    this.min = this.element.querySelector(`.timer-value-mins`);
+    this.sec = this.element.querySelector(`.timer-value-secs`);
+    this.lives = this.element.querySelector(`.main-mistakes`);
+  }
+
+  updateTime() {
+    this.sec.innerHTML = addZero(this.state.time % 60);
+    this.min.innerHTML = addZero(Math.trunc(this.state.time / 60));
+  }
+
+  updateLives() {
+    this.lives.innerHTML = new Array(MAX_ERRORS_COUNT - this.state.lives)
+        .fill(`<img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">`)
+        .join(``);
   }
 
 }

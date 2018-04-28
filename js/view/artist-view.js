@@ -2,12 +2,11 @@ import AbstractView from './abstract-view';
 
 
 export default class ArtistView extends AbstractView {
-  constructor(question, store) {
+  constructor(store) {
     super();
-    this.src = question.src;
-    this.answers = question.answers;
     this.store = store;
-    this.rightAnswer = question.rightAnswer;
+    this.src = this.store.guessArtistData.src;
+    this.answers = this.store.guessArtistData.answers;
   }
 
   get template() {
@@ -41,7 +40,7 @@ export default class ArtistView extends AbstractView {
   bind() {
     const artistOptions = this.element.querySelectorAll(`.main-answer-r`);
     Array.from(artistOptions).forEach((elem) => {
-      elem.addEventListener(`change`, this.onAnswerClick);
+      elem.addEventListener(`click`, this.onAnswerClick);
     });
   }
 
@@ -56,20 +55,6 @@ export default class ArtistView extends AbstractView {
 	        </label>
 	    </div>`).join(``);
   }
-
-  processingAnswer(evt, answerTime) {
-    const selectedAnswerIdx = evt.target.value;
-    const currentAnswer = {};
-    if (Number(selectedAnswerIdx) === this.rightAnswer) {
-      currentAnswer.success = true;
-      currentAnswer.time = answerTime;
-    } else {
-      currentAnswer.success = false;
-      this.store.removeLife();
-    }
-    this.store.appendAnswer(currentAnswer);
-  }
-
 
   onAnswerClick() {
 

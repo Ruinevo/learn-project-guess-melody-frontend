@@ -2,6 +2,7 @@ import {renderScreen} from './../game/renderScreen';
 import {calculateScoresForGame} from './../game/calculate-scores';
 import ResultView from './../view/result-view';
 import Application from './application';
+import AbstractScreen from './../game';
 
 const TYPE_TEXT = {
   result: {
@@ -18,8 +19,9 @@ const TYPE_TEXT = {
   }
 };
 
-export default class ResultScreen {
+export default class ResultScreen extends AbstractScreen {
   constructor(state) {
+    super();
     this.state = state;
   }
 

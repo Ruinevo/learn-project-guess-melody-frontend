@@ -6,11 +6,11 @@ import switchScreen from './../game/switch-screen';
 export default class WelcomeScreen extends AbstractScreen {
   constructor(state) {
     super();
-    this.view = new WelcomeView();
     this.state = state;
+    this.view = new WelcomeView(this.state);
   }
 
-  init() {
+  createGameLevel() {
     this.view.onPlayClick = (evt) => {
       evt.preventDefault();
       switchScreen();
