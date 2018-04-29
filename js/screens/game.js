@@ -5,12 +5,16 @@ import store from './../data/game-store';
 import HeaderView from './../view/header-view';
 import GenreView from './../view/genre-view';
 import ArtistView from './../view/artist-view';
-import switchScreen from './../game/switch-screen';
+import {getRandomFromArray} from './../game/util';
+import answers from './../data/game-answers';
+
+
+const ROUNDS = 10;
+
 
 class GameScreen {
   constructor(state) {
     this.state = state;
-    this.data = this.state.data;
     this.answerTime = 0;
     this.header = new HeaderView(this.state);
     this._interval = null;
@@ -42,17 +46,19 @@ class GameScreen {
       evt.preventDefault();
       this.processArtistAnswer(evt, this.answerTime);
       this.answerTime = 0;
-      switchScreen();
+      this.switchScreen();
     };
   }
 
   createGenreGame() {
-    this.view.onAnswerClick = this.isAnswerSelected.bind(this);
+    this.view.onAnswerClick = () => {
+      this.isAnswerSelected();
+    };
     this.view.onSubmitClick = (evt) => {
       evt.preventDefault();
       this.processGenreAnswer(this.answerTime);
       this.answerTime = 0;
-      switchScreen();
+      this.switchScreen();
     };
 
   }
@@ -79,7 +85,7 @@ class GameScreen {
   }
 
   processArtistAnswer(evt, answerTime) {
-    const rightAnswer = this.state.data.guessArtistData.rightAnswer;
+    const rightAnswer = this.state.currentAnswer.rightAnswer;
     const selectedAnswerIdx = evt.target.value;
     const currentAnswer = {};
     if (Number(selectedAnswerIdx) === rightAnswer) {
@@ -93,7 +99,7 @@ class GameScreen {
   }
 
   processGenreAnswer(answerTime) {
-    const rightAnswer = this.state.data.guessGenreData.rightAnswer;
+    const rightAnswer = this.state.currentAnswer.rightAnswer;
     const genreOptions = this.view.element.querySelectorAll(`input[type=checkbox]`);
     const answerSubmitBtn = this.view.element.querySelector(`.genre-answer-send`);
     const arr = Array.from(genreOptions);
@@ -114,6 +120,16 @@ class GameScreen {
   stopGame() {
     clearInterval(this._interval);
     this._interval = null;
+  }
+
+  switchScreen() {
+    this.state.currentAnswer = getRandomFromArray(answers);
+    if (this.state.countOfDisplayedScreens < ROUNDS && this.state.lives > 0) {
+      this.init(this.state.currentAnswer);
+      this.state.addDisplayedScreen();
+    } else {
+      Application.showStats();
+    }
   }
 
 }

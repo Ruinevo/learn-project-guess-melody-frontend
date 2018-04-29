@@ -1,6 +1,6 @@
 import {renderScreen} from './../game/renderScreen';
 import WelcomeView from './../view/welcome-view';
-import switchScreen from './../game/switch-screen';
+import Application from './../application';
 
 export default class WelcomeScreen {
   constructor(state) {
@@ -11,7 +11,7 @@ export default class WelcomeScreen {
   createGameLevel() {
     this.view.onPlayClick = (evt) => {
       evt.preventDefault();
-      switchScreen();
+      Application.showGame();
     };
     renderScreen(this.view);
   }

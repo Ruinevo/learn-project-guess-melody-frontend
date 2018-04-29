@@ -30,8 +30,8 @@ export default class HeaderView extends AbstractView {
   }
 
   updateTime() {
-    this.sec.innerHTML = addZero(this.state.time % 60);
-    this.min.innerHTML = addZero(Math.trunc(this.state.time / 60));
+    this.sec.textContent = addZero(this.state.time % 60);
+    this.min.textContent = addZero(Math.trunc(this.state.time / 60));
   }
 
   updateLives() {

@@ -28,7 +28,6 @@ export const calculateScoresForGame = (answers, lives) => {
 };
 
 export const calculateQuickAnswers = (answers) => {
-  let quick = 0;
-  answers.forEach((it) => it.time < 30 ? quick++ : false);
-  return quick;
+  const quickAnswers = answers.filter((it) => it.time < 30);
+  return quickAnswers.length;
 };

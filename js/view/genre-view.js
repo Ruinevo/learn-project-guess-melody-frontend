@@ -2,12 +2,12 @@ import AbstractView from './abstract-view';
 
 
 export default class GenreView extends AbstractView {
-  constructor(store) {
+  constructor(state) {
     super();
-    this.store = store;
-    this.text = this.store.data.guessGenreData.text;
-    this.answers = this.store.data.guessGenreData.answers;
-    this.rightAnswer = this.store.data.guessGenreData.rightAnswer;
+    this.state = state;
+    this.text = this.state.currentAnswer.text;
+    this.answers = this.state.currentAnswer.answers;
+    this.rightAnswer = this.state.currentAnswer.rightAnswer;
 
   }
 

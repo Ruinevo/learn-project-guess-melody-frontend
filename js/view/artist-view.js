@@ -2,11 +2,11 @@ import AbstractView from './abstract-view';
 
 
 export default class ArtistView extends AbstractView {
-  constructor(store) {
+  constructor(state) {
     super();
-    this.store = store;
-    this.src = this.store.data.guessArtistData.src;
-    this.answers = this.store.data.guessArtistData.answers;
+    this.state = state;
+    this.src = this.state.currentAnswer.src;
+    this.answers = this.state.currentAnswer.answers;
   }
 
   get template() {
