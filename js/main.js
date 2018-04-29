@@ -1,4 +1,4 @@
-import Application from './screens/application';
+import Application from './application';
 
 
 Application.showWelcome();

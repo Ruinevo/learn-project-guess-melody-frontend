@@ -5,9 +5,9 @@ export default class GenreView extends AbstractView {
   constructor(store) {
     super();
     this.store = store;
-    this.text = this.store.guessGenreData.text;
-    this.answers = this.store.guessGenreData.answers;
-    this.rightAnswer = this.store.guessGenreData.rightAnswer;
+    this.text = this.store.data.guessGenreData.text;
+    this.answers = this.store.data.guessGenreData.answers;
+    this.rightAnswer = this.store.data.guessGenreData.rightAnswer;
 
   }
 

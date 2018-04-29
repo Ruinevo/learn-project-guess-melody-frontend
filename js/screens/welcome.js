@@ -1,11 +1,9 @@
 import {renderScreen} from './../game/renderScreen';
 import WelcomeView from './../view/welcome-view';
-import AbstractScreen from './../game';
 import switchScreen from './../game/switch-screen';
 
-export default class WelcomeScreen extends AbstractScreen {
+export default class WelcomeScreen {
   constructor(state) {
-    super();
     this.state = state;
     this.view = new WelcomeView(this.state);
   }

@@ -1,4 +1,4 @@
-import {addZero} from './util';
+import {addZero} from './../game/util';
 import AbstractView from './../view/abstract-view';
 
 const MAX_ERRORS_COUNT = 3;

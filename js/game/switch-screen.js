@@ -1,5 +1,5 @@
 import store from './../data/game-store';
-import Application from './../screens/application';
+import Application from './../application';
 
 const ROUNDS = 10;
 

@@ -5,8 +5,8 @@ export default class ArtistView extends AbstractView {
   constructor(store) {
     super();
     this.store = store;
-    this.src = this.store.guessArtistData.src;
-    this.answers = this.store.guessArtistData.answers;
+    this.src = this.store.data.guessArtistData.src;
+    this.answers = this.store.data.guessArtistData.answers;
   }
 
   get template() {

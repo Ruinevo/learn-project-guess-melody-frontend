@@ -5,9 +5,10 @@ export const getElementFromTemplate = (template) => {
   return outer.children[0];
 };
 // функция возвращает случайный элемент из массива
-export const getRandomFromArray = (possibleValues) => {
-  const randomIndex = Math.floor(Math.random() * possibleValues.length);
-  return possibleValues[randomIndex];
+export const getRandomFromObj = (possibleValues) => {
+  const randomIndex = Math.floor(Math.random() * Object.keys(possibleValues).length);
+  const randomKey = Object.keys(possibleValues)[randomIndex];
+  return possibleValues[randomKey];
 };
 
 // функция добавляет ноль перед значением "минуты"
@@ -37,7 +38,11 @@ export const settingPlayer = (html) => {
     control.addEventListener(`click`, (evt) => {
       evt.preventDefault();
       stopAllTracks(evt);
-      !audio.paused ? audio.pause() : audio.play();
+      if (!audio.paused) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
       control.classList.toggle(`player-control--pause`);
     });
   });

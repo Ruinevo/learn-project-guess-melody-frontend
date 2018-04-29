@@ -1,8 +1,7 @@
 import {renderScreen} from './../game/renderScreen';
 import {calculateScoresForGame} from './../game/calculate-scores';
 import ResultView from './../view/result-view';
-import Application from './application';
-import AbstractScreen from './../game';
+import Application from './../application';
 
 const TYPE_TEXT = {
   result: {
@@ -19,9 +18,8 @@ const TYPE_TEXT = {
   }
 };
 
-export default class ResultScreen extends AbstractScreen {
+export default class ResultScreen {
   constructor(state) {
-    super();
     this.state = state;
   }
 
@@ -44,7 +42,6 @@ export default class ResultScreen extends AbstractScreen {
       Application.showGame();
     };
     this.state.addResultToStats(points);
-
     renderScreen(this.view);
     this.state.reset();
   }
