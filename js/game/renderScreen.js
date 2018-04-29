@@ -1,6 +1,6 @@
 // функция, на вход принимает DOM-элемент и отрисовывает его на экран
-export const renderScreen = (element) => {
+export const renderScreen = (view) => {
   const app = document.querySelector(`.app`);
   app.innerHTML = ``;
-  app.appendChild(element.element);
+  app.appendChild(view.element);
 };

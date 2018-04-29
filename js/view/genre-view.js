@@ -1,13 +1,14 @@
 import AbstractView from './abstract-view';
-import headerTemplate from './../game/header';
-import {setPauseAndPlay} from './../game/util';
+
 
 export default class GenreView extends AbstractView {
-  constructor(question, state) {
+  constructor(state) {
     super();
-    this.text = question.text;
-    this.answers = question.answers;
     this.state = state;
+    this.text = this.state.currentAnswer.text;
+    this.answers = this.state.currentAnswer.answers;
+    this.rightAnswer = this.state.currentAnswer.rightAnswer;
+
   }
 
   get template() {
@@ -19,12 +20,11 @@ export default class GenreView extends AbstractView {
           class="timer-line"
           style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
       </svg>
-      ${headerTemplate(this.state.currentState)}
       <div class="main-wrap">
         <h2 class="title">${this.text}</h2>
         <form class="genre">
           ${this.renderAnswers(this.answers)}
-          <button class="genre-answer-send" type="submit">Ответить</button>
+          <button class="genre-answer-send" type="submit" disabled>Ответить</button>
         </form>
       </div>
     </section>`;
@@ -37,15 +37,6 @@ export default class GenreView extends AbstractView {
       elem.addEventListener(`click`, this.onAnswerClick);
     });
     answerSubmitBtn.addEventListener(`click`, this.onSubmitClick);
-  }
-
-  controlPlayer() {
-    const answers = this.element.querySelectorAll(`.genre-answer`);
-    Array.from(answers).forEach((elem) => {
-      const playerBtn = elem.querySelector(`.player-control`);
-      const audio = elem.querySelector(`audio`);
-      setPauseAndPlay(playerBtn, audio);
-    });
   }
 
 

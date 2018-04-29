@@ -5,7 +5,7 @@ class GameStore {
       resultsOfCurrentPlayer: [],
       countOfDisplayedScreens: 0,
       statistics: [],
-      time: 320
+      time: 50
     });
     this.currentState = Object.assign({}, this.initialState);
   }
@@ -26,6 +26,10 @@ class GameStore {
     return this.currentState.statistics;
   }
 
+  get time() {
+    return this.currentState.time;
+  }
+
   removeLife() {
     this.currentState.lives--;
     return this;
@@ -33,6 +37,11 @@ class GameStore {
 
   appendAnswer(answer) {
     this.currentState.resultsOfCurrentPlayer.push(answer);
+    return this;
+  }
+
+  tick() {
+    this.currentState.time--;
     return this;
   }
 
