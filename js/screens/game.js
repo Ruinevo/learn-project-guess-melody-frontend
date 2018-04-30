@@ -2,6 +2,7 @@ import {renderScreen} from './../game/renderScreen';
 import {settingPlayer} from './../game/util';
 import Application from './../application';
 import store from './../data/game-store';
+import QuestionService from './../data/question-service';
 import HeaderView from './../view/header-view';
 import GenreView from './../view/genre-view';
 import ArtistView from './../view/artist-view';
@@ -18,12 +19,12 @@ class GameScreen {
     this._interval = null;
   }
 
-  getLevelType(data) {
-    if (data.type === `artist`) {
+  getLevelType() {
+    if (this.state.currentAnswer.type === `artist`) {
       this.view = new ArtistView(this.state);
       this.createArtistGame();
     }
-    if (data.type === `genre`) {
+    if (this.state.currentAnswer.type === `genre`) {
       this.view = new GenreView(this.state);
       this.createGenreGame();
     }
@@ -32,8 +33,8 @@ class GameScreen {
   }
 
 
-  init(data) {
-    this.getLevelType(data);
+  init() {
+    this.getLevelType();
     this.loadInterval();
     settingPlayer(this.view);
     renderScreen(this.view);
@@ -44,7 +45,7 @@ class GameScreen {
       evt.preventDefault();
       this.processArtistAnswer(evt, this.answerTime);
       this.answerTime = 0;
-      this.switchScreen(this.data);
+      this.switchScreen();
     };
   }
 
@@ -56,7 +57,7 @@ class GameScreen {
       evt.preventDefault();
       this.processGenreAnswer(this.answerTime);
       this.answerTime = 0;
-      this.switchScreen(this.data);
+      this.switchScreen();
     };
 
   }
@@ -83,7 +84,8 @@ class GameScreen {
   }
 
   processArtistAnswer(evt, answerTime) {
-    const rightAnswer = this.state.currentAnswer.rightAnswer;
+    const answers = this.state.currentAnswer.answers;
+    const rightAnswer = answers.filter((it) => it.isCorrect).map((it) => answers.indexOf(it) + 1).join(``);
     const selectedAnswerIdx = evt.target.value;
     const currentAnswer = {};
     if (selectedAnswerIdx === rightAnswer) {
@@ -97,7 +99,9 @@ class GameScreen {
   }
 
   processGenreAnswer(answerTime) {
-    const rightAnswers = this.state.currentAnswer.rightAnswers;
+    const answers = this.state.currentAnswer.answers;
+    const genre = this.state.currentAnswer.genre;
+    const rightAnswers = answers.filter((it) => it.genre === genre).map((it) => answers.indexOf(it) + 1);
     const genreOptions = this.view.element.querySelectorAll(`input[type=checkbox]`);
     const answerSubmitBtn = this.view.element.querySelector(`.genre-answer-send`);
     const arr = Array.from(genreOptions);
@@ -120,11 +124,12 @@ class GameScreen {
     this._interval = null;
   }
 
-  switchScreen(data) {
-    this.data = data;
-    this.state.currentAnswer = this.data[this.state.countOfDisplayedScreens];
+  switchScreen() {
     if (this.state.countOfDisplayedScreens < ROUNDS && this.state.lives > 0) {
-      this.init(this.state.currentAnswer);
+      QuestionService.getNextQuestion().then((data) => {
+        this.state.currentAnswer = data;
+        this.init();
+      });
       this.state.addDisplayedScreen();
     } else {
       Application.showStats();

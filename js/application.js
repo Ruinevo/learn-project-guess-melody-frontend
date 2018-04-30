@@ -4,9 +4,7 @@ import GameScreen from './screens/game';
 import ErrorView from './view/error-view';
 import store from './data/game-store';
 import {renderScreen} from './game/renderScreen';
-import {checkStatus} from './game/util';
-import {adaptServerData} from './game/adapter';
-
+import QuestionService from './data/question-service';
 
 export default class Application {
 
@@ -16,12 +14,8 @@ export default class Application {
   }
 
   static showGame() {
-    window.fetch(`https://es.dump.academy/guess-melody/questions`).
-        then(checkStatus).
-        then((response) => response.json()).
-        then((data) => adaptServerData(data)).
-        then((answers) => GameScreen.switchScreen(answers)).
-        catch((error) => this.showError(error));
+    QuestionService.reload();
+    GameScreen.switchScreen();
   }
 
   static showStats() {
