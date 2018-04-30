@@ -1,10 +1,7 @@
 import WelcomeScreen from './screens/welcome';
 import ResultScreen from './screens/result';
 import GameScreen from './screens/game';
-import ErrorView from './view/error-view';
 import store from './data/game-store';
-import {renderScreen} from './game/renderScreen';
-import QuestionService from './data/question-service';
 
 export default class Application {
 
@@ -14,7 +11,6 @@ export default class Application {
   }
 
   static showGame() {
-    QuestionService.reload();
     GameScreen.switchScreen();
   }
 
@@ -22,11 +18,6 @@ export default class Application {
     const result = new ResultScreen(store);
     result.showResults();
     GameScreen.stopGame();
-  }
-
-  static showError(error) {
-    const errorView = new ErrorView(error);
-    renderScreen(errorView);
   }
 
 }

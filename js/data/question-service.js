@@ -1,10 +1,10 @@
 import {checkStatus} from './../game/util';
 import ErrorView from './../view/error-view';
 import {renderScreen} from './../game/renderScreen';
+import store from './../data/game-store';
 
 class QuestionService {
   constructor() {
-    this.usedQuestionsCount = 0;
     this.questions = [];
   }
 
@@ -15,13 +15,11 @@ class QuestionService {
           then((response) => response.json()).
           then((questions) => {
             this.questions = questions;
-            return this.questions[0];
+            return this.questions[store.countOfDisplayedScreens];
           }).
           catch((error) => this.showError(error));
     }
-
-    this.usedQuestionsCount++;
-    const nextQuestion = this.questions[this.usedQuestionsCount];
+    const nextQuestion = this.questions[store.countOfDisplayedScreens];
 
     return Promise.resolve(nextQuestion);
   }
@@ -32,10 +30,6 @@ class QuestionService {
     renderScreen(errorView);
   }
 
-  reload() {
-    this.questions = [];
-    this.usedQuestionsCount = 0;
-  }
 }
 
 
