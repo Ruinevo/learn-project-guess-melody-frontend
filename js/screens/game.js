@@ -5,8 +5,6 @@ import store from './../data/game-store';
 import HeaderView from './../view/header-view';
 import GenreView from './../view/genre-view';
 import ArtistView from './../view/artist-view';
-import {getRandomFromArray} from './../game/util';
-import answers from './../data/game-answers';
 
 
 const ROUNDS = 10;
@@ -46,7 +44,7 @@ class GameScreen {
       evt.preventDefault();
       this.processArtistAnswer(evt, this.answerTime);
       this.answerTime = 0;
-      this.switchScreen();
+      this.switchScreen(this.data);
     };
   }
 
@@ -58,7 +56,7 @@ class GameScreen {
       evt.preventDefault();
       this.processGenreAnswer(this.answerTime);
       this.answerTime = 0;
-      this.switchScreen();
+      this.switchScreen(this.data);
     };
 
   }
@@ -88,7 +86,7 @@ class GameScreen {
     const rightAnswer = this.state.currentAnswer.rightAnswer;
     const selectedAnswerIdx = evt.target.value;
     const currentAnswer = {};
-    if (Number(selectedAnswerIdx) === rightAnswer) {
+    if (selectedAnswerIdx === rightAnswer) {
       currentAnswer.success = true;
       currentAnswer.time = answerTime;
     } else {
@@ -99,14 +97,14 @@ class GameScreen {
   }
 
   processGenreAnswer(answerTime) {
-    const rightAnswer = this.state.currentAnswer.rightAnswer;
+    const rightAnswers = this.state.currentAnswer.rightAnswers;
     const genreOptions = this.view.element.querySelectorAll(`input[type=checkbox]`);
     const answerSubmitBtn = this.view.element.querySelector(`.genre-answer-send`);
     const arr = Array.from(genreOptions);
     const selectedAnswersIdx = arr.filter((it) => it.checked).map((it) => arr.indexOf(it) + 1);
-    const right = selectedAnswersIdx.every((elem) => rightAnswer.indexOf(elem) !== -1);
+    const right = selectedAnswersIdx.every((elem) => rightAnswers.indexOf(elem) !== -1);
     const currentAnswer = {};
-    if (right && selectedAnswersIdx.length === rightAnswer.length) {
+    if (right && selectedAnswersIdx.length === rightAnswers.length) {
       currentAnswer.success = right;
       currentAnswer.time = answerTime;
     } else {
@@ -122,8 +120,9 @@ class GameScreen {
     this._interval = null;
   }
 
-  switchScreen() {
-    this.state.currentAnswer = getRandomFromArray(answers);
+  switchScreen(data) {
+    this.data = data;
+    this.state.currentAnswer = this.data[this.state.countOfDisplayedScreens];
     if (this.state.countOfDisplayedScreens < ROUNDS && this.state.lives > 0) {
       this.init(this.state.currentAnswer);
       this.state.addDisplayedScreen();

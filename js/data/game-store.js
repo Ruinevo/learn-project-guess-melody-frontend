@@ -5,7 +5,7 @@ class GameStore {
       resultsOfCurrentPlayer: [],
       countOfDisplayedScreens: 0,
       statistics: [],
-      time: 50
+      time: 300
     });
     this.currentState = Object.assign({}, this.initialState);
   }

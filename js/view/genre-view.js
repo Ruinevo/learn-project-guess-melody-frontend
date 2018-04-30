@@ -7,8 +7,6 @@ export default class GenreView extends AbstractView {
     this.state = state;
     this.text = this.state.currentAnswer.text;
     this.answers = this.state.currentAnswer.answers;
-    this.rightAnswer = this.state.currentAnswer.rightAnswer;
-
   }
 
   get template() {
