@@ -47,3 +47,11 @@ export const settingPlayer = (html) => {
   });
 };
 
+export const checkStatus = (response) => {
+  if (response.ok) {
+    return response;
+  } else {
+    throw new Error(`${response.status}: ${response.statusText} `);
+  }
+};
+

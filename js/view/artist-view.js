@@ -50,8 +50,8 @@ export default class ArtistView extends AbstractView {
       <div class="main-answer-wrapper">
 	      <input class="main-answer-r" type="radio" id="answer-${idx + 1}" name="answer" value="${idx + 1}"/>
 	      <label class="main-answer" for="answer-${idx + 1}">
-	        <img class="main-answer-preview" src="${answer.image}" alt="${answer.text}" width="134" height="134">
-	          ${answer.text}
+	        <img class="main-answer-preview" src="${answer.image.url}" alt="${answer.title}" width="${answer.image.width}" height="${answer.image.height}">
+	          ${answer.title}
 	        </label>
 	    </div>`).join(``);
   }

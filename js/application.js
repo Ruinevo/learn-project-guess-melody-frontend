@@ -3,7 +3,6 @@ import ResultScreen from './screens/result';
 import GameScreen from './screens/game';
 import store from './data/game-store';
 
-
 export default class Application {
 
   static showWelcome() {
