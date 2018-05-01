@@ -2,7 +2,7 @@ import {renderScreen} from './../game/renderScreen';
 import {settingPlayer} from './../game/util';
 import Application from './../application';
 import store from './../data/game-store';
-import QuestionService from './../data/question-service';
+import Backend from './../data/backend';
 import HeaderView from './../view/header-view';
 import GenreView from './../view/genre-view';
 import ArtistView from './../view/artist-view';
@@ -126,12 +126,11 @@ class GameScreen {
 
   switchScreen() {
     if (this.state.countOfDisplayedScreens < ROUNDS && this.state.lives > 0) {
-      QuestionService.getNextQuestion().then((data) => {
+      Backend.getNextQuestion().then((data) => {
         this.state.currentAnswer = data;
         this.state.addDisplayedScreen();
         this.init();
       });
-
     } else {
       Application.showStats();
     }

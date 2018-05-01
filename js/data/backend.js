@@ -6,9 +6,10 @@ import store from './../data/game-store';
 const SERVER_URL = `https://es.dump.academy/guess-melody`;
 const APP_ID = 386952;
 
-class QuestionService {
-  constructor() {
+class Backend {
+  constructor(state) {
     this.questions = [];
+    this.state = state;
   }
 
   getNextQuestion() {
@@ -18,11 +19,11 @@ class QuestionService {
           then((response) => response.json()).
           then((questions) => {
             this.questions = questions;
-            return this.questions[store.countOfDisplayedScreens];
+            return this.questions[this.state.countOfDisplayedScreens];
           }).
           catch((error) => this.showError(error));
     }
-    const nextQuestion = this.questions[store.countOfDisplayedScreens];
+    const nextQuestion = this.questions[this.state.countOfDisplayedScreens];
     return Promise.resolve(nextQuestion);
   }
 
@@ -50,8 +51,8 @@ class QuestionService {
 }
 
 
-const service = new QuestionService();
+const backend = new Backend(store);
 
-export default service;
+export default backend;
 
 

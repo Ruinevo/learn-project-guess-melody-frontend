@@ -24,10 +24,12 @@ export default class ResultScreen {
   }
 
   showResults(data) {
-    data.forEach((it) => {
-      const points = calculateScoresForGame(it);
-      this.state.statistics.push(points);
-    });
+    if (data) {
+      data.forEach((it) => {
+        const points = calculateScoresForGame(it);
+        this.state.statistics.push(points);
+      });
+    }
     const points = calculateScoresForGame(this.state.resultsOfCurrentPlayer, this.state.lives, this.state.time);
     const currentPlayer = {};
     currentPlayer.points = points;
