@@ -3,6 +3,7 @@ import ErrorView from './../view/error-view';
 import {renderScreen} from './../game/renderScreen';
 import store from './../data/game-store';
 
+
 const SERVER_URL = `https://es.dump.academy/guess-melody`;
 const APP_ID = 386952;
 
@@ -14,7 +15,9 @@ class Backend {
 
   getNextQuestion() {
     if (!this.questions.length) {
+
       return fetch(`${SERVER_URL}/questions`).
+
           then(checkStatus).
           then((response) => response.json()).
           then((questions) => {
@@ -31,7 +34,7 @@ class Backend {
     return fetch(`${SERVER_URL}/stats/${APP_ID}`).then(checkStatus).then((response) => response.json());
   }
 
-  saveResults(data) {
+   saveResults(data) {
     const requestSettings = {
       body: JSON.stringify(data),
       headers: {

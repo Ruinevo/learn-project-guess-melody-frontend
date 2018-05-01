@@ -4,6 +4,7 @@ import GameScreen from './screens/game';
 import store from './data/game-store';
 import Backend from './data/backend';
 
+
 export default class Application {
 
   static showWelcome() {

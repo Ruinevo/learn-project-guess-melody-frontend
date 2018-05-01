@@ -59,7 +59,6 @@ export const checkStatus = (response) => {
   }
 };
 
-
 export const presentMin = (current, initial) => {
   const passedMin = addZero(Math.trunc((initial / 60) - (current / 60)));
   switch (passedMin) {
