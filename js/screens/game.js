@@ -69,6 +69,9 @@ class GameScreen {
         if (this.state.time <= 0) {
           Application.showStats();
         }
+        if (this.state.time <= 30) {
+          this.header.startBlinkTimer();
+        }
         this.state.tick();
         this.answerTime++;
         this.header.updateTime();
@@ -124,7 +127,7 @@ class GameScreen {
     this._interval = null;
   }
 
-switchScreen() {
+  switchScreen() {
     if (this.state.countOfDisplayedScreens < ROUNDS && this.state.lives > 0) {
       Backend.getNextQuestion().then((data) => {
         this.state.currentAnswer = data;

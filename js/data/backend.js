@@ -34,7 +34,7 @@ class Backend {
     return fetch(`${SERVER_URL}/stats/${APP_ID}`).then(checkStatus).then((response) => response.json());
   }
 
-   saveResults(data) {
+  saveResults(data) {
     const requestSettings = {
       body: JSON.stringify(data),
       headers: {
