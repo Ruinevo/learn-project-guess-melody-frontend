@@ -4,6 +4,7 @@ import GameScreen from './screens/game';
 import store from './data/game-store';
 import QuestionService from './data/question-service';
 
+
 export default class Application {
 
   static showWelcome() {

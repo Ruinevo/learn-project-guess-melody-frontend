@@ -124,7 +124,7 @@ class GameScreen {
     this._interval = null;
   }
 
-  switchScreen() {
+switchScreen() {
     if (this.state.countOfDisplayedScreens < ROUNDS && this.state.lives > 0) {
       QuestionService.getNextQuestion().then((data) => {
         this.state.currentAnswer = data;
