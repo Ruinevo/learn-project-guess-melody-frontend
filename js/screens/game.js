@@ -2,7 +2,7 @@ import {renderScreen} from './../game/renderScreen';
 import {settingPlayer} from './../game/util';
 import Application from './../application';
 import store from './../data/game-store';
-import QuestionService from './../data/question-service';
+import Backend from './../data/backend';
 import HeaderView from './../view/header-view';
 import GenreView from './../view/genre-view';
 import ArtistView from './../view/artist-view';
@@ -20,11 +20,11 @@ class GameScreen {
   }
 
   getLevelType() {
-    if (this.state.currentAnswer.type === `artist`) {
+    if (this.state.currentQuestion.type === `artist`) {
       this.view = new ArtistView(this.state);
       this.createArtistGame();
     }
-    if (this.state.currentAnswer.type === `genre`) {
+    if (this.state.currentQuestion.type === `genre`) {
       this.view = new GenreView(this.state);
       this.createGenreGame();
     }
@@ -69,6 +69,9 @@ class GameScreen {
         if (this.state.time <= 0) {
           Application.showStats();
         }
+        if (this.state.time <= 30) {
+          this.header.startBlinkTimer();
+        }
         this.state.tick();
         this.answerTime++;
         this.header.updateTime();
@@ -84,7 +87,7 @@ class GameScreen {
   }
 
   processArtistAnswer(evt, answerTime) {
-    const answers = this.state.currentAnswer.answers;
+    const answers = this.state.currentQuestion.answers;
     const rightAnswer = answers.filter((it) => it.isCorrect).map((it) => answers.indexOf(it) + 1).join(``);
     const selectedAnswerIdx = evt.target.value;
     const currentAnswer = {};
@@ -99,8 +102,8 @@ class GameScreen {
   }
 
   processGenreAnswer(answerTime) {
-    const answers = this.state.currentAnswer.answers;
-    const genre = this.state.currentAnswer.genre;
+    const answers = this.state.currentQuestion.answers;
+    const genre = this.state.currentQuestion.genre;
     const rightAnswers = answers.filter((it) => it.genre === genre).map((it) => answers.indexOf(it) + 1);
     const genreOptions = this.view.element.querySelectorAll(`input[type=checkbox]`);
     const answerSubmitBtn = this.view.element.querySelector(`.genre-answer-send`);
@@ -126,11 +129,10 @@ class GameScreen {
 
   switchScreen() {
     if (this.state.countOfDisplayedScreens < ROUNDS && this.state.lives > 0) {
-      QuestionService.getNextQuestion().then((data) => {
-        this.state.currentAnswer = data;
+      Backend.getNextQuestion().then((data) => {
+        this.state.currentQuestion = data;
         this.state.addDisplayedScreen();
         this.init();
-
       });
     } else {
       Application.showStats();

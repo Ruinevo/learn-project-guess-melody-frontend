@@ -9,7 +9,7 @@ export const showResult = (resultsOfOtherPlayers, resultOfCurrentPlayer) => {
   dirtyResultsOfOtherPlayers.sort((a, b) => b - a);
   const positionOfCurrentPlayer = dirtyResultsOfOtherPlayers.indexOf(resultOfCurrentPlayer.points) + 1;
   const percent = (dirtyResultsOfOtherPlayers.length - positionOfCurrentPlayer) * 100 / dirtyResultsOfOtherPlayers.length;
-  return `Вы заняли ${positionOfCurrentPlayer} место из ${dirtyResultsOfOtherPlayers.length} игроков. Это лучше, чем у ${percent}% игроков`;
+  return `Вы заняли ${positionOfCurrentPlayer} место из ${dirtyResultsOfOtherPlayers.length} игроков. Это лучше, чем у ${percent.toFixed(2)}% игроков`;
 };
 
 

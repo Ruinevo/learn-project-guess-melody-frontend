@@ -5,8 +5,8 @@ export default class ArtistView extends AbstractView {
   constructor(state) {
     super();
     this.state = state;
-    this.src = this.state.currentAnswer.src;
-    this.answers = this.state.currentAnswer.answers;
+    this.src = this.state.currentQuestion.src;
+    this.answers = this.state.currentQuestion.answers;
   }
 
   get template() {

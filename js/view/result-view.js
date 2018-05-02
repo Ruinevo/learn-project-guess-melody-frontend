@@ -1,10 +1,8 @@
 import {showResult} from './../game/show-result';
 import AbstractView from './abstract-view';
-import {addZero} from './../game/util';
+import {presentMin, presentSec, presentErrors} from './../game/util';
 import store from './../data/game-store';
 import {calculateQuickAnswers} from './../game/calculate-scores';
-
-const MAX_ERRORS_COUNT = 3;
 
 export default class ResultView extends AbstractView {
   constructor(statistics, currentPlayer, typeText) {
@@ -29,19 +27,19 @@ export default class ResultView extends AbstractView {
     replayBtn.addEventListener(`click`, this.onReplayClick);
   }
 
+
   setTemplateResultScreen() {
     if (this.currentPlayer.lives <= 0 || this.currentPlayer.time <= 0) {
       return `<div class="main-stat">${showResult(this.statistics, this.currentPlayer)}</div>`;
     } else {
-      return `<div class="main-stat">За&nbsp;${addZero(Math.trunc((store.initialState.time / 60) - (this.currentPlayer.time / 60))) }&nbsp;минуты и ${addZero((store.initialState.time % 60) - (this.currentPlayer.time % 60))}&nbsp;секунд
+      return `<div class="main-stat">За&nbsp;${presentMin(this.currentPlayer.time, store.initialState.time)}
+               и ${presentSec(this.currentPlayer.time, store.initialState.time)}
               <br>вы&nbsp;набрали ${this.currentPlayer.points} баллов (${calculateQuickAnswers(store.resultsOfCurrentPlayer)} быстрых)
-              <br>совершив ${MAX_ERRORS_COUNT - this.currentPlayer.lives} ошибки
+              <br>совершив ${presentErrors(this.currentPlayer.lives)}
               </div>
               <span class="main-comparison">${showResult(this.statistics, this.currentPlayer)}</span>`;
     }
   }
 
   onReplayClick() {}
-
 }
-

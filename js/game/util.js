@@ -1,4 +1,8 @@
 // функция, на вход принимающая разметку, на выходе выдает DOM-элемент с этой разметкой
+
+const MAX_ERRORS_COUNT = 3;
+
+
 export const getElementFromTemplate = (template) => {
   const outer = document.createElement(`div`);
   outer.innerHTML = template;
@@ -52,6 +56,42 @@ export const checkStatus = (response) => {
     return response;
   } else {
     throw new Error(`${response.status}: ${response.statusText} `);
+  }
+};
+
+export const presentMin = (current, initial) => {
+  const passedMin = addZero(Math.trunc((initial / 60) - (current / 60)));
+  switch (passedMin) {
+    case `00`:
+      return `${passedMin} минут`;
+    case `01`:
+      return `${passedMin} минуту`;
+    default:
+      return `${passedMin} минуты`;
+  }
+};
+
+export const presentSec = (current, initial) => {
+  const passedSec = addZero((initial - current) % 60);
+  const lastSymbol = String(passedSec).substr(-1);
+  if (lastSymbol === `1`) {
+    return `${passedSec} секунду`;
+  }
+  if (lastSymbol > `1` && lastSymbol < `5`) {
+    return `${passedSec} секунды`;
+  }
+  return `${passedSec} секунд`;
+};
+
+export const presentErrors = (lives) => {
+  const countOfError = MAX_ERRORS_COUNT - lives;
+  switch (countOfError) {
+    case 0:
+      return `${countOfError} ошибок`;
+    case 1:
+      return `${countOfError} ошибку`;
+    default:
+      return `${countOfError} ошибки`;
   }
 };
 
