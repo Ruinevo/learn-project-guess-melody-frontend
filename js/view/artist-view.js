@@ -23,7 +23,7 @@ export default class ArtistView extends AbstractView {
 		      <h2 class="title main-title">Кто исполняет эту песню?</h2>
 		      <div class="player-wrapper">
 		        <div class="player">
-		          <audio src="${this.src}"></audio>
+		          <audio preload="auto" src="${this.src}"></audio>
 		          <button class="player-control"></button>
 		          <div class="player-track">
 		            <span class="player-status"></span>

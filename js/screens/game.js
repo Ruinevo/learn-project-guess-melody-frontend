@@ -131,7 +131,6 @@ class GameScreen {
     if (this.state.countOfDisplayedScreens < ROUNDS && this.state.lives > 0) {
       Backend.getNextQuestion().then((data) => {
         this.state.currentQuestion = data;
-        console.log(this.state.currentQuestion.answers);
         this.state.addDisplayedScreen();
         this.init();
       });
