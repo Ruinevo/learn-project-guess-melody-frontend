@@ -1,7 +1,4 @@
-// функция, на вход принимающая разметку, на выходе выдает DOM-элемент с этой разметкой
-
 const MAX_ERRORS_COUNT = 3;
-
 
 export const getElementFromTemplate = (template) => {
   const outer = document.createElement(`div`);
@@ -15,7 +12,7 @@ export const getRandomFromArray = (possibleValues) => {
 };
 
 // функция добавляет ноль перед значением "минуты"
-export const addZero = (value) => value < 10 ? `0` + value : value;
+export const addZero = (value) => value < 10 ? `0${value}` : value;
 
 export const settingPlayer = (html) => {
 

@@ -1,7 +1,7 @@
-const SCORES = {
-  rightAnswer: 1,
-  wrongAnswer: -2,
-  quickAnswer: 2
+const ScoresForAnswer = {
+  RIGHT: 1,
+  WRONG: -2,
+  QUICK: 2
 };
 
 const QUICK_ANSWER_TIME_LIMIT = 30; // s
@@ -10,11 +10,11 @@ const ROUNDS = 10;
 
 const calculateScoresForAnswer = (answer) => {
   if (answer.success && answer.time > QUICK_ANSWER_TIME_LIMIT) {
-    return SCORES.rightAnswer;
+    return ScoresForAnswer.RIGHT;
   } else if (answer.success && answer.time < QUICK_ANSWER_TIME_LIMIT) {
-    return SCORES.quickAnswer;
+    return ScoresForAnswer.QUICK;
   }
-  return SCORES.wrongAnswer;
+  return ScoresForAnswer.WRONG;
 };
 
 export const calculateScoresForGame = (answers, lives) => {

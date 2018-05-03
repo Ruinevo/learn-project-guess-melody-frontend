@@ -21,22 +21,22 @@ export default class PreloadView extends AbstractView {
     this.contentBody = this.element.querySelector(`.preload p`);
   }
 
-  playBtnDisabled() {
+  _playBtnDisabled() {
     this.playBtn = document.querySelector(`.main-play`);
     this.playBtn.style.borderLeftColor = `#c9c9c9`;
     this.playBtn.disabled = true;
   }
 
-  playBtnEnabled() {
+  _playBtnEnabled() {
     this.playBtn.style.borderLeftColor = `#ff9749`;
     this.playBtn.disabled = false;
   }
 
-  update() {
+  _update() {
     this.contentBody.textContent = `Загружено треков: ${this.loadedTracks} из ${this.tracks.length}`;
   }
 
-  initializationTracks(data) {
+  _initializationTracks(data) {
     const tracks = [];
     for (const answer of data) {
       if (answer.type === `artist`) {
@@ -57,19 +57,19 @@ export default class PreloadView extends AbstractView {
 
   preloadAudio(data) {
 
-    this.playBtnDisabled();
+    this._playBtnDisabled();
 
     return new Promise((resolve) => {
 
-      this.initializationTracks(data);
-      this.update();
+      this._initializationTracks(data);
+      this._update();
 
       this.tracks.forEach((it) => {
         it.addEventListener(`canplaythrough`, () => {
           this.loadedTracks++;
-          this.update();
+          this._update();
           if (this.loadedTracks === this.tracks.length) {
-            this.playBtnEnabled();
+            this._playBtnEnabled();
             this.contentTitle.textContent = `Загрузка завершена!`;
             resolve(data);
           }

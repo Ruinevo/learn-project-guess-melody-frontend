@@ -44,10 +44,18 @@ export default class HeaderView extends AbstractView {
     if (!this.min.classList.contains(`blink`)) {
       const timerElements = this.element.querySelectorAll(`.timer-value span`);
       Array.from(timerElements).forEach((it) => {
-        it.style.color = `red`;
+        it.style.color = `#ff0000`;
         it.classList.add(`blink`);
       });
     }
+  }
+
+  stopBlinkTimer() {
+      const timerElements = this.element.querySelectorAll(`.timer-value span`);
+      Array.from(timerElements).forEach((it) => {
+        it.style.color = `#ff9749`;
+        it.classList.remove(`blink`);
+      });
   }
 
 

@@ -19,14 +19,14 @@ class GameScreen {
     this._interval = null;
   }
 
-  getLevelType() {
+  _getLevelType() {
     if (this.state.currentQuestion.type === `artist`) {
       this.view = new ArtistView(this.state);
-      this.createArtistGame();
+      this._createArtistGame();
     }
     if (this.state.currentQuestion.type === `genre`) {
       this.view = new GenreView(this.state);
-      this.createGenreGame();
+      this._createGenreGame();
     }
     this.view.element.appendChild(this.header.element);
     this.header.updateLives();
@@ -34,40 +34,41 @@ class GameScreen {
 
 
   init() {
-    this.getLevelType();
-    this.loadInterval();
+    this._getLevelType();
+    this._loadInterval();
     settingPlayer(this.view);
     renderScreen(this.view);
   }
 
-  createArtistGame() {
+  _createArtistGame() {
     this.view.onAnswerClick = (evt) => {
       evt.preventDefault();
-      this.processArtistAnswer(evt, this.answerTime);
+      this._processArtistAnswer(evt, this.answerTime);
       this.answerTime = 0;
       this.switchScreen();
     };
   }
 
-  createGenreGame() {
+  _createGenreGame() {
     this.view.onAnswerClick = () => {
-      this.isAnswerSelected();
+      this._isAnswerSelected();
     };
     this.view.onSubmitClick = (evt) => {
       evt.preventDefault();
-      this.processGenreAnswer(this.answerTime);
+      this._processGenreAnswer(this.answerTime);
       this.answerTime = 0;
       this.switchScreen();
     };
 
   }
 
-  loadInterval() {
+  _loadInterval() {
     this.header.updateTime();
     if (this._interval === null) {
       this._interval = setInterval(() => {
         if (this.state.time <= 0) {
           Application.showStats();
+          this.header.stopBlinkTimer();
         }
         if (this.state.time <= 30) {
           this.header.startBlinkTimer();
@@ -79,14 +80,14 @@ class GameScreen {
     }
   }
 
-  isAnswerSelected() {
+  _isAnswerSelected() {
     const genreOptions = this.view.element.querySelectorAll(`input[type=checkbox]`);
     const answerSubmitBtn = this.view.element.querySelector(`.genre-answer-send`);
     let isSubmitEnabled = Array.from(genreOptions).some((it) => it.checked);
     answerSubmitBtn.disabled = !isSubmitEnabled;
   }
 
-  processArtistAnswer(evt, answerTime) {
+  _processArtistAnswer(evt, answerTime) {
     const answers = this.state.currentQuestion.answers;
     const rightAnswer = answers.filter((it) => it.isCorrect).map((it) => answers.indexOf(it) + 1).join(``);
     const selectedAnswerIdx = evt.target.value;
@@ -101,7 +102,7 @@ class GameScreen {
     this.state.appendAnswer(currentAnswer);
   }
 
-  processGenreAnswer(answerTime) {
+  _processGenreAnswer(answerTime) {
     const answers = this.state.currentQuestion.answers;
     const genre = this.state.currentQuestion.genre;
     const rightAnswers = answers.filter((it) => it.genre === genre).map((it) => answers.indexOf(it) + 1);
