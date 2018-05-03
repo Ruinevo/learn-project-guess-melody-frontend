@@ -13,7 +13,7 @@ class Backend {
     this.state = state;
   }
 
-  load() {
+  loadQuestions() {
     return fetch(`${SERVER_URL}/questions`).
         then(checkStatus).
         then((response) => response.json()).
@@ -25,12 +25,7 @@ class Backend {
   }
 
   getNextQuestion() {
-    if (!this.questions.length) {
-      this.load();
-      return this.questions[this.state.countOfDisplayedScreens];
-    }
-    const nextQuestion = this.questions[this.state.countOfDisplayedScreens];
-    return Promise.resolve(nextQuestion);
+    return this.questions[this.state.countOfDisplayedScreens];
   }
 
   loadResult() {

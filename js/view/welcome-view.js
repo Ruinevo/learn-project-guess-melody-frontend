@@ -1,7 +1,6 @@
 import AbstractView from './abstract-view';
 
 export default class WelcomeView extends AbstractView {
-
   get template() {
     return `
 		<section class="main main--welcome">
@@ -17,8 +16,18 @@ export default class WelcomeView extends AbstractView {
   }
 
   bind() {
-    const playButton = this.element.querySelector(`.main-play`);
-    playButton.addEventListener(`click`, this.onPlayClick);
+    this.playButton = this.element.querySelector(`.main-play`);
+    this.playButton.addEventListener(`click`, this.onPlayClick);
+  }
+
+  disablePlayButton() {
+    this.playButton.style.borderLeftColor = `#c9c9c9`;
+    this.playButton.disabled = true;
+  }
+
+  enablePlayButton() {
+    this.playButton.style.borderLeftColor = `#ff9749`;
+    this.playButton.disabled = false;
   }
 
   onPlayClick() {}

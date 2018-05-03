@@ -130,11 +130,9 @@ class GameScreen {
 
   switchScreen() {
     if (this.state.countOfDisplayedScreens < ROUNDS && this.state.lives > 0) {
-      Backend.getNextQuestion().then((data) => {
-        this.state.currentQuestion = data;
-        this.state.addDisplayedScreen();
-        this.init();
-      });
+      this.state.currentQuestion = Backend.getNextQuestion();
+      this.state.addDisplayedScreen();
+      this.init();
     } else {
       Application.showStats();
     }
