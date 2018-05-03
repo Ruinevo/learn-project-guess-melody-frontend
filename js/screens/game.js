@@ -1,4 +1,4 @@
-import {renderScreen} from './../game/renderScreen';
+import {renderScreen} from './../game/render-screen';
 import {settingPlayer} from './../game/util';
 import Application from './../application';
 import store from './../data/game-store';
@@ -131,6 +131,7 @@ class GameScreen {
     if (this.state.countOfDisplayedScreens < ROUNDS && this.state.lives > 0) {
       Backend.getNextQuestion().then((data) => {
         this.state.currentQuestion = data;
+        console.log(this.state.currentQuestion.answers);
         this.state.addDisplayedScreen();
         this.init();
       });

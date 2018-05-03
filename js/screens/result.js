@@ -1,4 +1,4 @@
-import {renderScreen} from './../game/renderScreen';
+import {renderScreen} from './../game/render-screen';
 import {calculateScoresForGame} from './../game/calculate-scores';
 import ResultView from './../view/result-view';
 import Application from './../application';

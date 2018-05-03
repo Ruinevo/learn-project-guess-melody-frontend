@@ -1,6 +1,6 @@
 import {checkStatus} from './../game/util';
 import ErrorView from './../view/error-view';
-import {renderScreen} from './../game/renderScreen';
+import {renderScreen} from './../game/render-screen';
 import store from './../data/game-store';
 
 
@@ -13,18 +13,21 @@ class Backend {
     this.state = state;
   }
 
+  load() {
+    return fetch(`${SERVER_URL}/questions`).
+        then(checkStatus).
+        then((response) => response.json()).
+        then((questions) => {
+          this.questions = questions;
+          return this.questions;
+        }).
+        catch((error) => this.showError(error));
+  }
+
   getNextQuestion() {
     if (!this.questions.length) {
-
-      return fetch(`${SERVER_URL}/questions`).
-
-          then(checkStatus).
-          then((response) => response.json()).
-          then((questions) => {
-            this.questions = questions;
-            return this.questions[this.state.countOfDisplayedScreens];
-          }).
-          catch((error) => this.showError(error));
+      this.load();
+      return this.questions[this.state.countOfDisplayedScreens];
     }
     const nextQuestion = this.questions[this.state.countOfDisplayedScreens];
     return Promise.resolve(nextQuestion);

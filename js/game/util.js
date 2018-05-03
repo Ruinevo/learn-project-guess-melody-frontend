@@ -17,8 +17,6 @@ export const getRandomFromArray = (possibleValues) => {
 // функция добавляет ноль перед значением "минуты"
 export const addZero = (value) => value < 10 ? `0` + value : value;
 
-// функция проигрывает и ставит на паузу аудиофайл
-
 export const settingPlayer = (html) => {
 
   const myMap = new Map();
