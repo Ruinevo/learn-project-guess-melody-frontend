@@ -8,11 +8,11 @@ const TYPE_TEXT = {
     h2: `Вы настоящий меломан!`,
     button: `Сыграть ещё раз`
   },
-  livesover: {
+  livesOver: {
     h2: `Какая жалость!`,
     button: `Попробовать ещё раз`
   },
-  timeover: {
+  timeOver: {
     h2: `Увы и ах!`,
     button: `Попробовать ещё раз`
   }
@@ -37,9 +37,9 @@ export default class ResultScreen {
     currentPlayer.time = this.state.time;
     let typeText;
     if (currentPlayer.time <= 0) {
-      typeText = TYPE_TEXT.timeover;
+      typeText = TYPE_TEXT.timeOver;
     } else if (currentPlayer.lives <= 0) {
-      typeText = TYPE_TEXT.livesover;
+      typeText = TYPE_TEXT.livesOver;
     } else {
       typeText = TYPE_TEXT.result;
     }
