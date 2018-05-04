@@ -24,6 +24,7 @@ export default class HeaderView extends AbstractView {
 
 
   bind() {
+    this.timerElements = this.element.querySelectorAll(`.timer-value span`);
     this.min = this.element.querySelector(`.timer-value-mins`);
     this.sec = this.element.querySelector(`.timer-value-secs`);
     this.lives = this.element.querySelector(`.main-mistakes`);
@@ -41,24 +42,16 @@ export default class HeaderView extends AbstractView {
   }
 
   startBlinkTimer() {
-    if (!this.min.classList.contains(`blink`)) {
-      const timerElements = this.element.querySelectorAll(`.timer-value span`);
-      Array.from(timerElements).forEach((it) => {
-        it.style.color = `#ff0000`;
-        it.classList.add(`blink`);
-      });
-    }
+    Array.from(this.timerElements).forEach((it) => {
+      it.style.color = `#ff0000`;
+      it.classList.add(`blink`);
+    });
   }
 
   stopBlinkTimer() {
-    const timerElements = this.element.querySelectorAll(`.timer-value span`);
-    Array.from(timerElements).forEach((it) => {
+    Array.from(this.timerElements).forEach((it) => {
       it.style.color = `#ff9749`;
       it.classList.remove(`blink`);
     });
   }
-
-
 }
-
-
