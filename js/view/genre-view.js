@@ -21,7 +21,7 @@ export default class GenreView extends AbstractView {
       <div class="main-wrap">
         <h2 class="title">${this.title}</h2>
         <form class="genre">
-          ${this.renderAnswers(this.answers)}
+          ${this._renderAnswers(this.answers)}
           <button class="genre-answer-send" type="submit" disabled>Ответить</button>
         </form>
       </div>
@@ -43,12 +43,12 @@ export default class GenreView extends AbstractView {
     genreForm.reset();
   }
 
-  renderAnswers(answers) {
+  _renderAnswers(answers) {
     return answers.map((answer, idx) => ` 
     <div class="genre-answer">
       <div class="player-wrapper">
         <div class="player">
-          <audio src="${answer.src}"></audio>
+          <audio preload="auto" src="${answer.src}"></audio>
           <button class="player-control"></button>
           <div class="player-track">
             <span class="player-status"></span>

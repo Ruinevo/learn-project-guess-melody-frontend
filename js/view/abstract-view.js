@@ -13,13 +13,13 @@ export default class AbstractView {
 
   get element() {
     if (!this._element) {
-      this._element = this.render();
+      this._element = this.renderView();
       this.bind();
     }
     return this._element;
   }
 
-  render() {
+  renderView() {
     return getElementFromTemplate(this.template);
   }
 
