@@ -1,5 +1,5 @@
 import {renderScreen} from './../game/render-screen';
-import {settingPlayer} from './../game/util';
+import {setupPlayer} from './../game/util';
 import Application from './../application';
 import store from './../data/game-store';
 import Backend from './../data/backend';
@@ -36,7 +36,7 @@ class GameScreen {
   init() {
     this._getLevelType();
     this._loadInterval();
-    settingPlayer(this.view);
+    setupPlayer(this.view);
     renderScreen(this.view);
   }
 
@@ -83,7 +83,7 @@ class GameScreen {
   _isAnswerSelected() {
     const genreOptions = this.view.element.querySelectorAll(`input[type=checkbox]`);
     const answerSubmitBtn = this.view.element.querySelector(`.genre-answer-send`);
-    let isSubmitEnabled = Array.from(genreOptions).some((it) => it.checked);
+    const isSubmitEnabled = Array.from(genreOptions).some((it) => it.checked);
     answerSubmitBtn.disabled = !isSubmitEnabled;
   }
 
@@ -108,8 +108,8 @@ class GameScreen {
     const rightAnswers = answers.filter((it) => it.genre === genre).map((it) => answers.indexOf(it) + 1);
     const genreOptions = this.view.element.querySelectorAll(`input[type=checkbox]`);
     const answerSubmitBtn = this.view.element.querySelector(`.genre-answer-send`);
-    const arr = Array.from(genreOptions);
-    const selectedAnswersIdx = arr.filter((it) => it.checked).map((it) => arr.indexOf(it) + 1);
+    const trueGenreOptions = Array.from(genreOptions);
+    const selectedAnswersIdx = trueGenreOptions.filter((it) => it.checked).map((it) => trueGenreOptions.indexOf(it) + 1);
     const right = selectedAnswersIdx.every((elem) => rightAnswers.indexOf(elem) !== -1);
     const currentAnswer = {};
     if (right && selectedAnswersIdx.length === rightAnswers.length) {
@@ -134,6 +134,7 @@ class GameScreen {
       this.state.addDisplayedScreen();
       this.init();
     } else {
+      this.header.stopBlinkTimer();
       Application.showStats();
     }
   }
