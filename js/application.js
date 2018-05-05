@@ -19,7 +19,7 @@ export default class Application {
   static showStats() {
     GameScreen.stopGame();
     const result = new ResultScreen(store);
-    if (store.resultsOfCurrentPlayer.length === 10) {
+    if (store.resultsOfCurrentPlayer.length === store.initialState.rounds) {
       Backend.saveResults(store.resultsOfCurrentPlayer).
           then(() => Backend.loadResult()).
           then((data) => result.showResults(data));
