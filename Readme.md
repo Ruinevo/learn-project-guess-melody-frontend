@@ -1,3 +1,8 @@
+!!!Для сборки проекта:
+1) npm i
+2) npm start
+
+
 # Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
 
 * Студент: [Rinat Sadykov](https://up.htmlacademy.ru/ecmascript/4/user/98853).
