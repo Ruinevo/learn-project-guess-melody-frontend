@@ -1,6 +1,8 @@
-!!!Для сборки проекта:
+!!! Для сборки проекта:
 1) npm i
-2) npm start
+2) npm i gulp-better-rollup -DE
+3) npm i gulp-sourcemaps -DE
+4) npm start
 
 
 # Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
